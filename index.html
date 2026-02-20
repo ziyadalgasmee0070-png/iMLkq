@@ -9,7 +9,7 @@
 <style>
   :root { --main-blue: #0074D9; --dark-bg: #000000; --kick-green: #2ecc71; --light-blue: #7FDBFF; }
 
-  /* --- شاشة الـ Blur --- */
+  /* --- شاشة الـ Blur البدائية --- */
   #loading-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(20px);
@@ -19,70 +19,80 @@
   .loading-text { font-size: 80px; font-weight: bold; color: var(--main-blue); animation: pulseText 1s infinite alternate; }
   @keyframes fadeOutScreen { to { opacity: 0; visibility: hidden; } }
 
-  /* --- القائمة الجانبية (تعديل الظهور) --- */
+  /* --- إعدادات الخلفية (Background) مع الـ Blur --- */
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    background-color: black;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  .bg-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* تأكد من تغيير bg.png لاسم صورتك بالضبط */
+    background-image: url('bg.png'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    filter: blur(8px) brightness(0.4); /* هنا التغبيش والسواد الخفيف */
+    z-index: -1;
+    transform: scale(1.1); /* لمنع ظهور أطراف بيضاء بسبب التغبيش */
+  }
+
+  /* --- القائمة الجانبية (Sidebar) --- */
   .sidebar {
     height: 100%; width: 0; position: fixed; z-index: 3000;
-    top: 0; right: 0; background-color: #000a1a; /* خلفية داكنة لمنع التداخل */
+    top: 0; right: 0; background-color: rgba(0, 10, 26, 0.95);
     overflow-x: hidden; transition: 0.4s; padding-top: 80px;
-    box-shadow: -5px 0 25px rgba(0,0,0,0.8);
   }
   .sidebar a {
     padding: 20px 25px; text-decoration: none; font-size: 22px;
-    color: var(--light-blue); display: block; transition: 0.3s;
-    border-bottom: 1px solid rgba(255,255,255,0.05); text-align: right;
+    color: var(--light-blue); display: block; border-bottom: 1px solid rgba(255,255,255,0.05);
   }
-  .sidebar a:hover { background: var(--main-blue); color: white; }
-  .sidebar .closebtn { position: absolute; top: 15px; left: 25px; font-size: 45px; color: white; cursor: pointer; }
+  .sidebar .closebtn { position: absolute; top: 15px; left: 25px; font-size: 45px; cursor: pointer; }
 
   .openbtn {
     font-size: 30px; cursor: pointer; background: var(--main-blue); color: white;
     padding: 12px 18px; border: none; position: fixed; top: 20px; right: 20px;
-    z-index: 2500; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,116,217,0.5);
+    z-index: 2500; border-radius: 10px;
   }
 
-  /* --- روابط التواصل على اليسار --- */
+  /* --- الروابط السريعة (يسار) --- */
   .social-sidebar {
     position: fixed; left: 15px; top: 55%; transform: translateY(-50%);
     display: flex; flex-direction: column; gap: 12px; z-index: 1000;
   }
-  .social-icon {
-    width: 48px; height: 48px; border-radius: 50%; display: flex;
-    justify-content: center; align-items: center; color: white;
-    font-size: 22px; text-decoration: none; transition: 0.3s;
-  }
-  .social-icon:hover { transform: scale(1.15); }
+  .social-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 22px; text-decoration: none; }
   .kick { background: #53fc18; color: black; }
   .discord { background: #5865F2; }
   .whatsapp { background: #25d366; }
   .youtube-color { background: #ff0000; }
-  .instagram { background: #e1306c; }
-  .twitter { background: #1da1f2; }
 
-  /* --- تصميم الموقع الرئيسي --- */
-  body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--dark-bg); color: white; font-size: 20px; }
-  header { padding: 90px 20px; background: linear-gradient(135deg, #001f3f, #0074D9, #000); border-bottom: 3px solid var(--main-blue); }
-  .logo-img { width: 230px; height: 230px; border-radius: 50%; object-fit: cover; border: 5px solid var(--main-blue); filter: drop-shadow(0 0 15px var(--main-blue)); }
-  h1 { font-size: 60px; color: var(--light-blue); margin: 15px 0; }
+  /* --- المحتوى --- */
+  header { padding: 100px 20px; text-align: center; }
+  .logo-img { width: 230px; height: 230px; border-radius: 50%; object-fit: cover; border: 5px solid var(--main-blue); box-shadow: 0 0 20px var(--main-blue); }
+  h1 { font-size: 65px; color: var(--light-blue); margin: 15px 0; text-shadow: 2px 2px 10px black; }
 
-  /* --- عرض مقاطع اليوتيوب --- */
   .yt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 20px; }
-  .yt-card { background: #111; border-radius: 15px; overflow: hidden; border: 1px solid #222; transition: 0.3s; }
-  .yt-card:hover { border-color: var(--main-blue); transform: scale(1.02); }
-  .yt-card img { width: 100%; height: auto; display: block; }
-  .yt-card p { padding: 15px; font-size: 18px; margin: 0; text-align: center; }
+  .yt-card { background: rgba(20, 20, 20, 0.8); border-radius: 15px; overflow: hidden; border: 1px solid #333; backdrop-filter: blur(5px); }
+  .yt-card img { width: 100%; height: auto; }
 
-  /* --- العدادات بالأسفل --- */
-  .counters-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 40px 20px; background: #050505; }
-  .counter-box { padding: 25px; border-radius: 15px; background: #0a0a0a; border: 1px solid #1a1a1a; text-align: center; }
+  .counters-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 40px 20px; }
+  .counter-box { padding: 25px; border-radius: 15px; background: rgba(10, 10, 10, 0.7); border: 1px solid #333; text-align: center; backdrop-filter: blur(5px); }
   .counter-number { font-size: 35px; font-weight: bold; color: var(--kick-green); display: block; }
 
   .page { display: none; padding: 20px; animation: fadeIn 0.5s forwards; }
   .active-page { display: block; }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  #welcome-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--kick-green); color: black; padding: 15px 40px; border-radius: 50px; font-weight: bold; z-index: 11000; transition: 0.5s; font-size: 22px; }
+  #welcome-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--kick-green); color: black; padding: 15px 40px; border-radius: 50px; font-weight: bold; z-index: 11000; transition: 0.5; }
 </style>
 </head>
 <body onload="checkUser()">
+
+  <div class="bg-overlay"></div>
 
   <div id="loading-screen"><div class="loading-text">iMLkq</div></div>
   <div id="welcome-toast">أهلاً بك في عائلة أبو ملك</div>
@@ -94,15 +104,11 @@
     <a href="https://discord.gg/imlkq" target="_blank" class="social-icon discord"><i class="fa-brands fa-discord"></i></a>
     <a href="https://whatsapp.com/channel/0029VaeFkY9FXUuV971StZ0W" target="_blank" class="social-icon whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
     <a href="https://youtube.com/@imlkq1" target="_blank" class="social-icon youtube-color"><i class="fa-brands fa-youtube"></i></a>
-    <a href="https://www.instagram.com/imlkq1" target="_blank" class="social-icon instagram"><i class="fa-brands fa-instagram"></i></a>
-    <a href="https://x.com/imlkq1" target="_blank" class="social-icon twitter"><i class="fa-brands fa-x-twitter"></i></a>
   </div>
 
   <div id="mySidebar" class="sidebar">
     <span class="closebtn" onclick="closeNav()">×</span>
-    <div id="user-area">
-      <a href="#" onclick="showPage('login-page')" style="background: var(--kick-green); color: black; font-weight: bold; border-radius: 5px; margin: 10px; text-align: center;">Login / إنشاء حساب</a>
-    </div>
+    <div id="user-area"><a href="#" onclick="showPage('login-page')" style="text-align:center; background:var(--kick-green); color:black; font-weight:bold; margin:10px; border-radius:5px;">Login / إنشاء حساب</a></div>
     <a href="#" onclick="showPage('home-page')">1- الرئيسية</a>
     <a href="#" onclick="showPage('yt-page')">2- مقاطع اليوتيوب</a>
     <a href="#" onclick="showPage('home-page')">3- البثوث المباشرة</a>
@@ -115,9 +121,9 @@
       <h1>iMLkq</h1>
     </header>
     <div class="counters-container">
-      <div class="counter-box"><span class="counter-number">37.3K+</span><span style="color:#888">Kick</span></div>
-      <div class="counter-box"><span class="counter-number">10K+</span><span style="color:#888">YouTube</span></div>
-      <div class="counter-box"><span class="counter-number">5K+</span><span style="color:#888">Instagram</span></div>
+      <div class="counter-box"><span class="counter-number">37.3K+</span><span style="color:#ccc">Kick</span></div>
+      <div class="counter-box"><span class="counter-number">10K+</span><span style="color:#ccc">YouTube</span></div>
+      <div class="counter-box"><span class="counter-number">5K+</span><span style="color:#ccc">Instagram</span></div>
     </div>
   </div>
 
@@ -126,33 +132,21 @@
     <div class="yt-grid">
       <a href="https://youtu.be/_tFB1fDSBdk" target="_blank" class="yt-card">
         <img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" alt="Video 1">
-        <p>مشاهدة المقطع الأول</p>
+        <p style="color:white; text-align:center; padding:10px;">مشاهدة المقطع</p>
       </a>
       <a href="https://youtu.be/zrN12x_SkfA" target="_blank" class="yt-card">
         <img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" alt="Video 2">
-        <p>مشاهدة المقطع الثاني</p>
+        <p style="color:white; text-align:center; padding:10px;">مشاهدة المقطع</p>
       </a>
-      <a href="https://youtu.be/C9kFIOq-lN8" target="_blank" class="yt-card">
-        <img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" alt="Video 3">
-        <p>مشاهدة المقطع الثالث</p>
-      </a>
-    </div>
-  </div>
-
-  <div id="login-page" class="page">
-    <div style="background: #0a0a0a; padding: 40px; border-radius: 20px; border: 1px solid var(--main-blue); margin: 100px auto; max-width: 500px; text-align: center;">
-      <h2>إنشاء حساب</h2>
-      <input type="text" id="username-input" placeholder="اسم المستخدم" style="width:90%; padding:15px; margin:10px 0; background:#111; border:1px solid var(--main-blue); color:white; border-radius:8px;">
-      <button onclick="registerUser()" style="width:95%; padding:15px; background:var(--kick-green); border:none; border-radius:8px; font-weight:bold; cursor:pointer;">دخول</button>
     </div>
   </div>
 
   <div id="about-page" class="page">
-    <div style="background: #0a0a0a; padding: 40px; border-radius: 20px; border: 1px solid var(--main-blue); margin: 100px auto; max-width: 700px; text-align: right; line-height: 1.8;">
+    <div style="background: rgba(10, 10, 10, 0.85); padding: 40px; border-radius: 20px; border: 1px solid var(--main-blue); margin: 60px auto; max-width: 700px; text-align: right; backdrop-filter: blur(10px);">
       <h2 style="color: var(--light-blue);">عن الموقع</h2>
       <p>هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"أبو ملك"</strong>. تم تصميم هذا السيرفر ليكون الوجهة الأولى لكل ما يخص "أبو ملك"...</p>
-      <hr style="border: 0.1px solid #222;">
-      <p style="text-align: center; color: #888;">جميع الحقوق محفوظة © 2026. صُنع بكل حب من قبل: 911 (zeyad)</p>
+      <hr style="border: 0.1px solid #444;">
+      <p style="text-align: center; color: #aaa;">جميع الحقوق محفوظة © 2026. صُنع بكل حب من قبل: 911 (zeyad)</p>
     </div>
   </div>
 
@@ -168,9 +162,7 @@
     }
     function registerUser() {
       const name = document.getElementById('username-input').value;
-      if(name.trim() === "") return;
-      localStorage.setItem('mlkq_user', name);
-      location.reload();
+      if(name && name.trim() !== "") { localStorage.setItem('mlkq_user', name); location.reload(); }
     }
     function checkUser() {
       const savedUser = localStorage.getItem('mlkq_user');
@@ -183,6 +175,5 @@
       }
     }
   </script>
-
 </body>
 </html>
