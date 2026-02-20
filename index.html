@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>أبو ملك | المقر الرسمي</title>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
@@ -13,105 +12,85 @@
     --kick-green: #2ecc71; 
     --light-blue: #7FDBFF; 
     --live-red: #ff4d4d;
-    --discord-blurple: #5865F2;
   }
 
-  /* --- إعدادات الخلفية --- */
   body {
     margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif;
-    color: white; font-size: 20px; background-color: black; overflow-x: hidden;
+    color: white; background-color: black; overflow-x: hidden;
     background-image: url('IMG_2566.jpeg'); background-size: cover;
-    background-position: center; background-attachment: fixed; background-repeat: no-repeat;
+    background-position: center; background-attachment: fixed;
   }
 
   body::before {
     content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(10px); z-index: -1;
+    background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(10px); z-index: -1;
   }
 
-  /* --- التاريخ والوقت --- */
+  /* التاريخ والوقت */
   #date-time-box {
-    position: fixed; top: 25px; left: 25px; background: rgba(0, 0, 0, 0.7);
-    padding: 12px 20px; border-radius: 15px; border: 1px solid var(--main-blue);
-    font-size: 18px; color: var(--light-blue); z-index: 2500; text-align: left; direction: ltr;
+    position: fixed; top: 20px; left: 20px; background: rgba(0, 0, 0, 0.7);
+    padding: 10px 15px; border-radius: 12px; border: 1px solid var(--main-blue);
+    font-size: 16px; color: var(--light-blue); z-index: 4000; text-align: left; direction: ltr;
   }
 
-  /* --- شاشة التحميل --- */
-  #loading-screen {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(25px);
-    display: flex; justify-content: center; align-items: center; z-index: 10000;
-    animation: fadeOutScreen 0.5s forwards 2s;
+  /* زر القائمة */
+  .openbtn {
+    font-size: 30px; cursor: pointer; background: var(--main-blue); color: white;
+    padding: 10px 15px; border: none; position: fixed; top: 20px; right: 20px;
+    z-index: 4000; border-radius: 10px;
   }
-  .loading-text { font-size: 80px; font-weight: bold; color: var(--main-blue); animation: pulseText 1s infinite alternate; }
-  @keyframes pulseText { from { transform: scale(1); } to { transform: scale(1.1); } }
-  @keyframes fadeOutScreen { to { opacity: 0; visibility: hidden; } }
 
-  /* --- القائمة الجانبية --- */
+  /* القائمة الجانبية */
   .sidebar {
-    height: 100%; width: 0; position: fixed; z-index: 3000; top: 0; right: 0;
-    background-color: rgba(0, 10, 26, 0.98); overflow-x: hidden; transition: 0.4s; padding-top: 80px;
+    height: 100%; width: 0; position: fixed; z-index: 5000; top: 0; right: 0;
+    background-color: rgba(0, 5, 15, 0.98); overflow-x: hidden; transition: 0.4s; padding-top: 80px;
   }
   .sidebar a {
-    padding: 22px 30px; text-decoration: none; font-size: 24px; color: var(--light-blue);
-    display: block; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: right;
+    padding: 15px 25px; text-decoration: none; font-size: 22px; color: var(--light-blue);
+    display: block; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: right;
   }
-  .sidebar .closebtn { position: absolute; top: 15px; left: 30px; font-size: 50px; color: white; cursor: pointer; }
+  .sidebar .closebtn { position: absolute; top: 15px; left: 25px; font-size: 40px; color: white; cursor: pointer; }
 
-  .openbtn {
-    font-size: 35px; cursor: pointer; background: var(--main-blue); color: white;
-    padding: 15px 20px; border: none; position: fixed; top: 25px; right: 25px;
-    z-index: 2500; border-radius: 12px;
-  }
-
-  /* --- روابط التواصل السريعة (يسار) --- */
+  /* أيقونات التواصل الاجتماعي (يسار الشاشة) */
   .social-sidebar {
     position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 12px; z-index: 1000;
+    display: flex; flex-direction: column; gap: 15px; z-index: 3000;
   }
   .social-icon {
     width: 50px; height: 50px; border-radius: 50%; display: flex;
     justify-content: center; align-items: center; color: white; font-size: 24px;
-    text-decoration: none; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    text-decoration: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
   }
   .social-icon:hover { transform: scale(1.2); }
   .kick { background: #53fc18; color: black; }
-  .discord { background: var(--discord-blurple); }
+  .discord { background: #5865F2; }
   .whatsapp { background: #25d366; }
-  .youtube-color { background: #ff0000; }
+  .youtube { background: #ff0000; }
   .instagram { background: #e1306c; }
-  .twitter { background: #1da1f2; }
+  .x-twitter { background: #000000; border: 1px solid #444; }
 
-  /* --- المحتوى الرئيسي --- */
-  header { padding: 100px 20px; text-align: center; }
-  .logo-img { width: 230px; height: 230px; border-radius: 50%; border: 5px solid var(--main-blue); filter: drop-shadow(0 0 20px var(--main-blue)); }
-  h1 { font-size: 70px; color: var(--light-blue); margin: 20px 0; text-shadow: 2px 2px 15px black; }
-
-  .counters-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 40px 20px; background: rgba(0,0,0,0.5); }
-  .counter-box { padding: 30px; border-radius: 20px; background: rgba(10,10,10,0.8); border: 1px solid var(--main-blue); text-align: center; }
-  .counter-number { font-size: 40px; font-weight: bold; color: var(--kick-green); display: block; }
-
-  /* صفحة عن الموقع - التأكد من وجود الكلام */
-  .about-content {
-    background: rgba(0, 0, 0, 0.85); padding: 50px; border-radius: 30px;
-    border: 1px solid var(--main-blue); margin: 60px auto; max-width: 800px;
-    text-align: right; line-height: 1.8;
-  }
-
-  .page { display: none; padding: 20px; animation: fadeIn 0.5s forwards; }
+  /* تنسيق الصفحات */
+  .page { display: none; padding: 100px 20px 40px; animation: fadeIn 0.5s; max-width: 900px; margin: auto; }
   .active-page { display: block; }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  #welcome-toast { position: fixed; top: -120px; left: 50%; transform: translateX(-50%); background: var(--kick-green); color: black; padding: 20px 50px; border-radius: 60px; font-weight: bold; z-index: 11000; transition: 0.6s; font-size: 22px; }
+
+  /* تصميم صفحة "عن الموقع" */
+  .about-container {
+    background: rgba(0, 0, 0, 0.8); padding: 40px; border-radius: 20px;
+    border: 2px solid var(--main-blue); text-align: right; line-height: 1.8;
+  }
+  .about-container h2 { color: var(--light-blue); font-size: 35px; margin-bottom: 20px; border-bottom: 2px solid var(--main-blue); display: inline-block; }
+  .about-container p { font-size: 22px; margin-bottom: 15px; }
+
+  header { text-align: center; margin-bottom: 50px; }
+  .logo-img { width: 220px; height: 220px; border-radius: 50%; border: 5px solid var(--main-blue); margin-bottom: 20px; }
 </style>
 </head>
-<body onload="checkUser(); startClock();">
-
-  <div id="loading-screen"><div class="loading-text">أبو ملك</div></div>
-  <div id="welcome-toast">أهلاً بك في عائلة أبو ملك</div>
+<body onload="startClock();">
 
   <div id="date-time-box">
-    <div id="clock-time">00:00:00 AM</div>
-    <div id="clock-date" style="font-size: 14px; color: #888;">Friday, Feb 20, 2026</div>
+    <div id="clock-time">--:--:--</div>
+    <div id="clock-date">--------</div>
   </div>
 
   <button class="openbtn" onclick="openNav()">☰</button>
@@ -120,77 +99,63 @@
     <a href="https://kick.com/imlkq" target="_blank" class="social-icon kick"><i class="fa-solid fa-k"></i></a>
     <a href="https://discord.gg/imlkq" target="_blank" class="social-icon discord"><i class="fa-brands fa-discord"></i></a>
     <a href="https://whatsapp.com/channel/0029VaeFkY9FXUuV971StZ0W" target="_blank" class="social-icon whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
-    <a href="https://youtube.com/@imlkq1" target="_blank" class="social-icon youtube-color"><i class="fa-brands fa-youtube"></i></a>
+    <a href="https://youtube.com/@imlkq1" target="_blank" class="social-icon youtube"><i class="fa-brands fa-youtube"></i></a>
     <a href="https://www.instagram.com/imlkq1" target="_blank" class="social-icon instagram"><i class="fa-brands fa-instagram"></i></a>
-    <a href="https://x.com/imlkq1" target="_blank" class="social-icon twitter"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="https://x.com/imlkq1" target="_blank" class="social-icon x-twitter"><i class="fa-brands fa-x-twitter"></i></a>
   </div>
 
   <div id="mySidebar" class="sidebar">
     <span class="closebtn" onclick="closeNav()">×</span>
-    <div id="user-area">
-      <a href="#" onclick="showPage('login-page')" style="background: var(--kick-green); color: black; font-weight: bold; text-align: center; border-radius: 10px; margin: 15px;">Login / إنشاء حساب</a>
-    </div>
-    <a href="#" onclick="showPage('home-page')">1- الرئيسية</a>
-    <a href="#" onclick="showPage('yt-page')">2- مقاطع اليوتيوب</a>
-    <a href="#" onclick="showPage('live-page')">3- البثوث المباشرة</a>
-    <a href="#" onclick="showPage('about-page')">4- عن الموقع</a>
+    <a href="#" onclick="showPage('home-page')">الرئيسية</a>
+    <a href="#" onclick="showPage('yt-page')">مقاطع اليوتيوب</a>
+    <a href="#" onclick="showPage('live-page')">البثوث المباشرة</a>
+    <a href="#" onclick="showPage('about-page')">عن الموقع</a>
   </div>
 
   <div id="home-page" class="page active-page">
     <header>
-      <img src="IMG_9806.png" alt="Logo" class="logo-img">
-      <h1>أبو ملك</h1>
+      <img src="IMG_9806.png" class="logo-img">
+      <h1 style="font-size: 60px; color: var(--light-blue);">أبو ملك</h1>
+      <p style="font-size: 30px; font-weight: bold;">iMLkq</p>
     </header>
-    <div class="counters-container">
-      <div class="counter-box"><span class="counter-number">37.3K+</span><span style="color:#aaa">متابع كيك</span></div>
-      <div class="counter-box"><span class="counter-number">10K+</span><span style="color:#aaa">مشترك يوتيوب</span></div>
-      <div class="counter-box"><span class="counter-number">1M+</span><span style="color:#aaa">إجمالي المشاهدات</span></div>
+  </div>
+
+  <div id="yt-page" class="page">
+    <h2 style="text-align: center; color: var(--light-blue); font-size: 40px;">آخر المقاطع</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        <a href="https://youtu.be/_tFB1fDSBdk" target="_blank"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
+        <a href="https://youtu.be/zrN12x_SkfA" target="_blank"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
+        <a href="https://youtu.be/C9kFIOq-lN8" target="_blank"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
     </div>
   </div>
 
-  <div id="yt-page" class="page" style="margin-top: 50px;">
-    <h2 style="text-align: center; color: var(--light-blue); font-size: 45px;">آخر المقاطع</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px;">
-      <a href="https://youtu.be/_tFB1fDSBdk" target="_blank"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
-      <a href="https://youtu.be/zrN12x_SkfA" target="_blank"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
-      <a href="https://youtu.be/C9kFIOq-lN8" target="_blank"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
-    </div>
-  </div>
-
-  <div id="live-page" class="page" style="margin-top: 80px;">
-    <div style="background: rgba(10,10,10,0.9); padding: 50px; border-radius: 30px; border: 2px solid var(--main-blue); max-width: 600px; margin: auto; text-align: center;">
-      <h2 style="color: var(--light-blue); font-size: 40px;">البث المباشر</h2>
-      <div style="margin: 20px 0;"><span style="display:inline-block; width:15px; height:15px; background:red; border-radius:50%; animation:blink 1s infinite;"></span> <span style="color:red; font-weight:bold;">LIVE NOW</span></div>
-      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:15px 40px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:24px;">مشاهدة البث على Kick</a>
+  <div id="live-page" class="page">
+    <div style="background: rgba(0,0,0,0.8); padding: 50px; border-radius: 20px; border: 2px solid var(--main-blue); text-align: center;">
+      <h2 style="color: var(--light-blue);">البث المباشر</h2>
+      <p style="font-size: 24px; margin: 20px 0;">تابع أقوى البثوث المباشرة على منصة Kick</p>
+      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:15px 40px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:22px;">انتقل للبث الآن</a>
     </div>
   </div>
 
   <div id="about-page" class="page">
-    <div class="about-content">
-      <h2 style="color: var(--light-blue); font-size: 35px; border-bottom: 2px solid var(--main-blue); padding-bottom: 10px;">عن الموقع</h2>
-      <p style="font-size: 22px;">هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"أبو ملك"</strong>. تم تصميم هذا الموقع ليكون الوجهة الأولى لكل ما يخص أبو ملك، حيث يجمع لكم أحدث المقاطع، البثوث المباشرة، وآخر الأخبار من جميع منصات التواصل الاجتماعي الخاصة به في مكان واحد.</p>
-      <p style="font-size: 22px;">نطمح هنا لبناء مجتمع تفاعلي يجمع المحبين والمتابعين، لنبقى دائماً على اتصال بكل جديد ومميز يقدمه أبو ملك.</p>
-      <hr style="border: 0.1px solid #444; margin: 25px 0;">
-      <p style="text-align: center; color: #888; font-size: 16px;">جميع الحقوق محفوظة © 2026. صُنع بكل حب من قبل: 911 (zeyad)</p>
-    </div>
-  </div>
-
-  <div id="login-page" class="page">
-    <div style="background: rgba(0,0,0,0.9); padding: 50px; border-radius: 20px; border: 1px solid var(--main-blue); margin: 100px auto; max-width: 500px; text-align: center;">
-      <h2>إنشاء حساب</h2>
-      <input type="text" id="username-input" placeholder="ادخل اسمك هنا" style="width:90%; padding:15px; margin:10px 0; background:#111; border:1px solid var(--main-blue); color:white; border-radius:10px;">
-      <button onclick="registerUser()" style="width:95%; padding:15px; background:var(--kick-green); border:none; border-radius:10px; font-weight:bold; cursor:pointer;">دخول</button>
+    <div class="about-container">
+      <h2>عن الموقع</h2>
+      <p>هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"أبو ملك"</strong>.</p>
+      <p>تم تصميم هذا الموقع ليكون الوجهة الأولى والأساسية لكل ما يخص "أبو ملك"، حيث يجمع لكم أحدث المقاطع من اليوتيوب، تنبيهات البثوث المباشرة على Kick، وآخر الأخبار من جميع منصات التواصل الاجتماعي الخاصة به في مكان واحد وبسهولة تامة.</p>
+      <p>هدفنا هو بناء مجتمع تفاعلي قوي يجمع كل المحبين والمتابعين لنبقى دائماً على اتصال بكل جديد يقدمه "أبو ملك".</p>
+      <hr style="border: 0.1px solid #333; margin: 30px 0;">
+      <p style="text-align: center; color: #777; font-size: 16px;">جميع الحقوق محفوظة © 2026 | صُنع بواسطة: ziyad (911)</p>
     </div>
   </div>
 
   <script>
-    function openNav() { document.getElementById("mySidebar").style.width = "320px"; }
+    function openNav() { document.getElementById("mySidebar").style.width = "300px"; }
     function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
     function showPage(pageId) {
       var pages = document.getElementsByClassName('page');
       for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active-page');
       document.getElementById(pageId).classList.add('active-page');
-      closeNav(); window.scrollTo(0,0);
+      closeNav();
     }
     function startClock() {
       setInterval(() => {
@@ -198,22 +163,6 @@
         document.getElementById('clock-time').innerText = now.toLocaleTimeString('en-US');
         document.getElementById('clock-date').innerText = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
       }, 1000);
-    }
-    function registerUser() {
-      const name = document.getElementById('username-input').value;
-      if(name.trim() === "") return;
-      localStorage.setItem('mlkq_user', name);
-      location.reload();
-    }
-    function checkUser() {
-      const savedUser = localStorage.getItem('mlkq_user');
-      if(savedUser) {
-        document.getElementById('user-area').innerHTML = `<div style="padding:20px; color:var(--kick-green); font-weight:bold; text-align:center;">👤 ${savedUser}</div>`;
-        setTimeout(() => {
-          document.getElementById('welcome-toast').style.top = "30px";
-          setTimeout(() => { document.getElementById('welcome-toast').style.top = "-150px"; }, 4000);
-        }, 2500);
-      }
     }
   </script>
 </body>
