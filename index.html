@@ -26,70 +26,67 @@
     background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(12px); z-index: -1;
   }
 
-  /* التاريخ والوقت - فوق يسار */
+  /* شاشة التحميل */
+  #loading-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.98); display: flex; justify-content: center; align-items: center;
+    z-index: 10000; animation: fadeOutScreen 0.5s forwards 2s;
+  }
+  .loading-text { font-size: 80px; font-weight: bold; color: var(--main-blue); animation: pulse 1s infinite alternate; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.1); } }
+  @keyframes fadeOutScreen { to { opacity: 0; visibility: hidden; } }
+
+  /* رسالة الترحيب */
+  #welcome-toast { 
+    position: fixed; top: -120px; left: 50%; transform: translateX(-50%); 
+    background: var(--kick-green); color: black; padding: 15px 40px; 
+    border-radius: 50px; font-weight: bold; z-index: 11000; transition: 0.6s; font-size: 20px; 
+  }
+
   #date-time-box {
     position: fixed; top: 20px; left: 20px; background: rgba(0, 0, 0, 0.7);
     padding: 10px 15px; border-radius: 12px; border: 1px solid var(--main-blue);
     font-size: 16px; color: var(--light-blue); z-index: 4000; text-align: left; direction: ltr;
   }
 
-  /* زر القائمة - فوق يمين */
   .openbtn {
     font-size: 30px; cursor: pointer; background: var(--main-blue); color: white;
     padding: 10px 15px; border: none; position: fixed; top: 20px; right: 20px;
     z-index: 4000; border-radius: 10px;
   }
 
-  /* القائمة الجانبية */
   .sidebar {
     height: 100%; width: 0; position: fixed; z-index: 5000; top: 0; right: 0;
     background-color: rgba(0, 5, 15, 0.98); overflow-x: hidden; transition: 0.4s; padding-top: 80px;
   }
-  .sidebar a {
-    padding: 15px 25px; text-decoration: none; font-size: 22px; color: var(--light-blue);
-    display: block; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: right;
-  }
+  .sidebar a { padding: 15px 25px; text-decoration: none; font-size: 22px; color: var(--light-blue); display: block; text-align: right; }
   .sidebar .closebtn { position: absolute; top: 15px; left: 25px; font-size: 40px; color: white; cursor: pointer; }
 
-  /* أيقونات التواصل الاجتماعي (يسار الشاشة) */
   .social-sidebar {
     position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 15px; z-index: 3000;
+    display: flex; flex-direction: column; gap: 12px; z-index: 3000;
   }
-  .social-icon {
-    width: 50px; height: 50px; border-radius: 50%; display: flex;
-    justify-content: center; align-items: center; color: white; font-size: 24px;
-    text-decoration: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  }
-  .social-icon:hover { transform: scale(1.2); }
+  .social-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 22px; text-decoration: none; transition: 0.3s; }
   .kick { background: #53fc18; color: black; }
   .discord { background: #5865F2; }
   .whatsapp { background: #25d366; }
   .youtube { background: #ff0000; }
   .instagram { background: #e1306c; }
-  .x-twitter { background: #000000; border: 1px solid #444; }
+  .x-twitter { background: #000; border: 1px solid #444; }
 
-  /* تنسيق الصفحات */
   .page { display: none; padding: 100px 20px 40px; animation: fadeIn 0.5s; max-width: 900px; margin: auto; }
   .active-page { display: block; }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  /* تصميم صفحة عن الموقع */
-  .about-container {
-    background: rgba(0, 0, 0, 0.85); padding: 40px; border-radius: 20px;
-    border: 2px solid var(--main-blue); text-align: right; line-height: 1.8;
-  }
-  .about-container h2 { color: var(--light-blue); font-size: 35px; margin-bottom: 20px; border-bottom: 2px solid var(--main-blue); display: inline-block; }
-  .about-container p { font-size: 22px; margin-bottom: 15px; color: #f0f0f0; }
-
+  .about-container { background: rgba(0, 0, 0, 0.85); padding: 40px; border-radius: 20px; border: 2px solid var(--main-blue); text-align: right; line-height: 1.8; }
   header { text-align: center; margin-bottom: 50px; }
-  .logo-img { width: 220px; height: 220px; border-radius: 50%; border: 5px solid var(--main-blue); margin-bottom: 20px; }
-  
-  /* حركة النبض للبث المباشر */
-  @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+  .logo-img { width: 220px; height: 220px; border-radius: 50%; border: 5px solid var(--main-blue); }
 </style>
 </head>
-<body onload="startClock();">
+<body onload="checkUser(); startClock();">
+
+  <div id="loading-screen"><div class="loading-text">iMLKq</div></div>
+  <div id="welcome-toast">أهلاً بك في عائلة iMLKq</div>
 
   <div id="date-time-box">
     <div id="clock-time">--:--:--</div>
@@ -109,70 +106,84 @@
 
   <div id="mySidebar" class="sidebar">
     <span class="closebtn" onclick="closeNav()">×</span>
+    <div id="user-area"><a href="#" onclick="showPage('login-page')" style="background:var(--kick-green); color:black; font-weight:bold; text-align:center; border-radius:10px; margin:10px;">Login / حساب</a></div>
     <a href="#" onclick="showPage('home-page')">الرئيسية</a>
-    <a href="#" onclick="showPage('yt-page')">مقاطع اليوتيوب</a>
-    <a href="#" onclick="showPage('live-page')">البثوث المباشرة</a>
+    <a href="#" onclick="showPage('yt-page')">اليوتيوب</a>
+    <a href="#" onclick="showPage('live-page')">البث المباشر</a>
     <a href="#" onclick="showPage('about-page')">عن الموقع</a>
   </div>
 
   <div id="home-page" class="page active-page">
     <header>
       <img src="IMG_9806.png" class="logo-img">
-      <h1 style="font-size: 75px; color: var(--light-blue); margin: 0;">iMLKq</h1>
-      <p style="font-size: 24px; color: #aaa;">المقر الرسمي</p>
+      <h1 style="font-size: 80px; color: var(--light-blue); margin: 10px 0;">iMLKq</h1>
     </header>
   </div>
 
   <div id="yt-page" class="page">
-    <h2 style="text-align: center; color: var(--light-blue); font-size: 40px; margin-bottom: 30px;">آخر المقاطع</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-        <a href="https://youtu.be/_tFB1fDSBdk" target="_blank"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" style="width:100%; border-radius:15px; border: 1px solid var(--main-blue);"></a>
-        <a href="https://youtu.be/zrN12x_SkfA" target="_blank"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" style="width:100%; border-radius:15px; border: 1px solid var(--main-blue);"></a>
-        <a href="https://youtu.be/C9kFIOq-lN8" target="_blank"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" style="width:100%; border-radius:15px; border: 1px solid var(--main-blue);"></a>
+    <h2 style="text-align: center; color: var(--light-blue); font-size: 40px;">مقاطع اليوتيوب</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <a href="https://youtu.be/_tFB1fDSBdk" target="_blank"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
+        <a href="https://youtu.be/zrN12x_SkfA" target="_blank"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
+        <a href="https://youtu.be/C9kFIOq-lN8" target="_blank"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
     </div>
   </div>
 
   <div id="live-page" class="page">
-    <div style="background: rgba(0,0,0,0.85); padding: 50px; border-radius: 25px; border: 2px solid var(--main-blue); text-align: center;">
-      <h2 style="color: var(--light-blue); font-size: 40px;">حالة البث المباشر</h2>
-      <div style="margin: 25px 0;">
-          <span style="display:inline-block; width:15px; height:15px; background:red; border-radius:50%; animation:blink 1s infinite;"></span> 
-          <span style="color:red; font-weight:bold; font-size: 22px;">أبو ملك قد يكون في بث الآن!</span>
-      </div>
-      <p style="font-size: 22px; margin-bottom: 30px;">اضغط على الزر أدناه للانتقال لقناة Kick مباشرة</p>
-      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:18px 45px; border-radius:12px; text-decoration:none; font-weight:bold; font-size:24px; transition: 0.3s;">دخول البث على Kick</a>
+    <div style="background:rgba(0,0,0,0.8); padding:50px; border-radius:20px; border:2px solid var(--main-blue); text-align:center;">
+      <h2 style="color:var(--light-blue);">بث Kick المباشر</h2>
+      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:15px 40px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:22px; display:inline-block; margin-top:20px;">دخول البث</a>
     </div>
   </div>
 
   <div id="about-page" class="page">
     <div class="about-container">
-      <h2>عن الموقع</h2>
-      <p>هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"iMLKq"</strong>.</p>
-      <p>تم تصميم هذا الموقع ليكون الوجهة الأولى والأساسية لكل ما يخص "أبو ملك"، حيث يجمع لكم أحدث المقاطع من اليوتيوب، وتنبيهات البثوث المباشرة على منصة Kick، وآخر الأخبار من جميع حسابات التواصل الاجتماعي في مكان واحد.</p>
-      <p>نطمح لبناء مجتمع تفاعلي يجمع المحبين والمتابعين لنبقى دائماً على اتصال بكل جديد ومميز.</p>
-      <hr style="border: 0.1px solid #444; margin: 30px 0;">
-      <p style="text-align: center; color: #888; font-size: 16px;">جميع الحقوق محفوظة © 2026 | صُنع بواسطة: ziyad (911)</p>
+      <h2 style="color:var(--light-blue); border-bottom:2px solid var(--main-blue); padding-bottom:10px;">عن الموقع</h2>
+      <p>هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"iMLKq"</strong>. يجمع لكم أحدث المقاطع والبثوث وآخر الأخبار في مكان واحد.</p>
+      <p>هدفنا بناء مجتمع تفاعلي يجمع كل المحبين لنبقى على اتصال دائم.</p>
+      <p style="text-align: center; color: #777; font-size: 14px; margin-top:30px;">© 2026 | صُنع بواسطة: ziyad (911)</p>
+    </div>
+  </div>
+
+  <div id="login-page" class="page">
+    <div style="background:rgba(0,0,0,0.9); padding:40px; border-radius:20px; border:1px solid var(--main-blue); text-align:center;">
+      <h2>إنشاء حساب</h2>
+      <input type="text" id="username-input" placeholder="اسم المستخدم" style="width:80%; padding:15px; margin:10px; border-radius:10px; border:none;">
+      <button onclick="registerUser()" style="width:85%; padding:15px; background:var(--kick-green); border:none; border-radius:10px; cursor:pointer;">دخول</button>
     </div>
   </div>
 
   <script>
-    function openNav() { document.getElementById("mySidebar").style.width = "300px"; }
+    function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
     function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
-    
     function showPage(pageId) {
       var pages = document.getElementsByClassName('page');
       for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active-page');
       document.getElementById(pageId).classList.add('active-page');
-      closeNav();
-      window.scrollTo(0,0);
+      closeNav(); window.scrollTo(0,0);
     }
-
     function startClock() {
       setInterval(() => {
         const now = new Date();
         document.getElementById('clock-time').innerText = now.toLocaleTimeString('en-US');
         document.getElementById('clock-date').innerText = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
       }, 1000);
+    }
+    function registerUser() {
+      const name = document.getElementById('username-input').value;
+      if(name.trim() === "") return;
+      localStorage.setItem('mlkq_user', name);
+      location.reload();
+    }
+    function checkUser() {
+      const savedUser = localStorage.getItem('mlkq_user');
+      if(savedUser) {
+        document.getElementById('user-area').innerHTML = `<div style="padding:15px; color:var(--kick-green); font-weight:bold; text-align:center;">👤 ${savedUser}</div>`;
+        setTimeout(() => {
+          document.getElementById('welcome-toast').style.top = "30px";
+          setTimeout(() => { document.getElementById('welcome-toast').style.top = "-150px"; }, 4000);
+        }, 2500);
+      }
     }
   </script>
 </body>
