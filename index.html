@@ -6,24 +6,24 @@
 <title>iMLkq | الموقع الرسمي</title>
 
 <style>
-  /* إعدادات الصفحة الأساسية */
+  /* إعدادات الصفحة الأساسية - أزرق واسود */
   body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #0a0a0a;
+    background: #000000; /* خلفية سوداء */
     color: white;
     text-align: center;
     direction: rtl;
     overflow-x: hidden;
   }
 
-  /* هيدر متحرك الألوان */
+  /* هيدر بألوان زرقاء وسوداء */
   header {
     padding: 80px 20px;
-    background: linear-gradient(135deg, #6d28d9, #9333ea, #4c1d95);
+    background: linear-gradient(135deg, #001f3f, #0074D9, #000000); /* تدرج أزرق واسود */
     background-size: 200% 200%;
     animation: gradientMove 6s ease infinite;
-    border-bottom: 3px solid #9333ea;
+    border-bottom: 3px solid #0074D9;
   }
 
   @keyframes gradientMove {
@@ -32,12 +32,12 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* --- حركة دخول الشعار الاحترافية --- */
+  /* حركة دخول الشعار */
   .logo-img {
-    width: 200px; /* حجم الشعار */
+    width: 200px;
     height: auto;
     margin-bottom: 20px;
-    filter: drop-shadow(0 0 20px rgba(147, 51, 234, 0.8));
+    filter: drop-shadow(0 0 20px rgba(0, 116, 217, 0.8));
     opacity: 0;
     transform: translateY(-60px) scale(0.7);
     animation: logoEntrance 1.5s cubic-bezier(0.17, 0.89, 0.32, 1.2) forwards,
@@ -49,8 +49,8 @@
   }
 
   @keyframes shinyPulse {
-    0%, 100% { filter: drop-shadow(0 0 15px #9333ea); transform: scale(1); }
-    50% { filter: drop-shadow(0 0 30px #c084fc); transform: scale(1.03); }
+    0%, 100% { filter: drop-shadow(0 0 15px #0074D9); transform: scale(1); }
+    50% { filter: drop-shadow(0 0 30px #7FDBFF); transform: scale(1.03); }
   }
 
   h1 {
@@ -58,12 +58,7 @@
     margin: 10px 0;
     text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
     animation: fadeIn 2s ease forwards;
-  }
-
-  p.subtitle {
-    font-size: 18px;
-    opacity: 0.8;
-    margin-bottom: 30px;
+    color: #7FDBFF; /* لون النص أزرق فاتح */
   }
 
   section {
@@ -74,10 +69,10 @@
 
   /* كرت الإحصائيات */
   .stats-card {
-    background: #141414;
+    background: #0a0a0a;
     padding: 30px;
     border-radius: 25px;
-    border: 2px solid #9333ea;
+    border: 2px solid #0074D9;
     box-shadow: 0 10px 40px rgba(0,0,0,0.8);
     transition: 0.4s;
     animation: slideUp 1.2s ease-out forwards;
@@ -85,19 +80,18 @@
 
   .stats-card:hover {
     transform: translateY(-15px);
-    box-shadow: 0 20px 50px rgba(147,51,234,0.4);
-    border-color: #c084fc;
+    box-shadow: 0 20px 50px rgba(0,116,217,0.3);
+    border-color: #7FDBFF;
   }
 
-  .stats-text {
-    font-size: 26px;
+  /* لون عدد المتابعين أخضر */
+  .kick-green {
+    color: #2ecc71; 
+    font-size: 28px;
     font-weight: bold;
-    background: linear-gradient(to right, #fff, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
   }
 
-  /* حركات عامة */
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes slideUp { 
     from { opacity: 0; transform: translateY(50px); } 
@@ -110,17 +104,16 @@
 
 <header>
   <img src="IMG_9806.png" alt="iMLkq Logo" class="logo-img">
-  <h1>🔥 iMLkq 🔥</h1>
-  <p class="subtitle">الموقع الرسمي للستريمر أبو ملك | iMLkq.com</p>
+  <h1>iMLkq</h1> <p>الموقع الرسمي للستريمر أبو ملك</p>
 </header>
 
 <section>
   <div class="stats-card">
     <h2>نبذة عن القناة</h2>
     <p>بثوث يومية، تحديات، وأقوى اللقطات. انضم لجيش iMLkq الآن!</p>
-    <hr style="border: 0.5px solid #333; margin: 20px 0;">
-    <div class="stats-text">
-      🎥 متابعين Kick: 37,300+
+    <hr style="border: 0.5px solid #1a1a1a; margin: 20px 0;">
+    <div style="font-size: 24px;">
+      🎥 متابعين Kick: <span class="kick-green">37,300+</span>
     </div>
   </div>
 </section>
