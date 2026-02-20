@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أبو ملك | المقر الرسمي</title>
+<title>iMLKq | المقر الرسمي</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
@@ -23,17 +23,17 @@
 
   body::before {
     content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(10px); z-index: -1;
+    background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(12px); z-index: -1;
   }
 
-  /* التاريخ والوقت */
+  /* التاريخ والوقت - فوق يسار */
   #date-time-box {
     position: fixed; top: 20px; left: 20px; background: rgba(0, 0, 0, 0.7);
     padding: 10px 15px; border-radius: 12px; border: 1px solid var(--main-blue);
     font-size: 16px; color: var(--light-blue); z-index: 4000; text-align: left; direction: ltr;
   }
 
-  /* زر القائمة */
+  /* زر القائمة - فوق يمين */
   .openbtn {
     font-size: 30px; cursor: pointer; background: var(--main-blue); color: white;
     padding: 10px 15px; border: none; position: fixed; top: 20px; right: 20px;
@@ -74,16 +74,19 @@
   .active-page { display: block; }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  /* تصميم صفحة "عن الموقع" */
+  /* تصميم صفحة عن الموقع */
   .about-container {
-    background: rgba(0, 0, 0, 0.8); padding: 40px; border-radius: 20px;
+    background: rgba(0, 0, 0, 0.85); padding: 40px; border-radius: 20px;
     border: 2px solid var(--main-blue); text-align: right; line-height: 1.8;
   }
   .about-container h2 { color: var(--light-blue); font-size: 35px; margin-bottom: 20px; border-bottom: 2px solid var(--main-blue); display: inline-block; }
-  .about-container p { font-size: 22px; margin-bottom: 15px; }
+  .about-container p { font-size: 22px; margin-bottom: 15px; color: #f0f0f0; }
 
   header { text-align: center; margin-bottom: 50px; }
   .logo-img { width: 220px; height: 220px; border-radius: 50%; border: 5px solid var(--main-blue); margin-bottom: 20px; }
+  
+  /* حركة النبض للبث المباشر */
+  @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 </style>
 </head>
 <body onload="startClock();">
@@ -115,48 +118,55 @@
   <div id="home-page" class="page active-page">
     <header>
       <img src="IMG_9806.png" class="logo-img">
-      <h1 style="font-size: 60px; color: var(--light-blue);">أبو ملك</h1>
-      <p style="font-size: 30px; font-weight: bold;">iMLkq</p>
+      <h1 style="font-size: 75px; color: var(--light-blue); margin: 0;">iMLKq</h1>
+      <p style="font-size: 24px; color: #aaa;">المقر الرسمي</p>
     </header>
   </div>
 
   <div id="yt-page" class="page">
-    <h2 style="text-align: center; color: var(--light-blue); font-size: 40px;">آخر المقاطع</h2>
+    <h2 style="text-align: center; color: var(--light-blue); font-size: 40px; margin-bottom: 30px;">آخر المقاطع</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-        <a href="https://youtu.be/_tFB1fDSBdk" target="_blank"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
-        <a href="https://youtu.be/zrN12x_SkfA" target="_blank"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
-        <a href="https://youtu.be/C9kFIOq-lN8" target="_blank"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
+        <a href="https://youtu.be/_tFB1fDSBdk" target="_blank"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" style="width:100%; border-radius:15px; border: 1px solid var(--main-blue);"></a>
+        <a href="https://youtu.be/zrN12x_SkfA" target="_blank"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" style="width:100%; border-radius:15px; border: 1px solid var(--main-blue);"></a>
+        <a href="https://youtu.be/C9kFIOq-lN8" target="_blank"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" style="width:100%; border-radius:15px; border: 1px solid var(--main-blue);"></a>
     </div>
   </div>
 
   <div id="live-page" class="page">
-    <div style="background: rgba(0,0,0,0.8); padding: 50px; border-radius: 20px; border: 2px solid var(--main-blue); text-align: center;">
-      <h2 style="color: var(--light-blue);">البث المباشر</h2>
-      <p style="font-size: 24px; margin: 20px 0;">تابع أقوى البثوث المباشرة على منصة Kick</p>
-      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:15px 40px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:22px;">انتقل للبث الآن</a>
+    <div style="background: rgba(0,0,0,0.85); padding: 50px; border-radius: 25px; border: 2px solid var(--main-blue); text-align: center;">
+      <h2 style="color: var(--light-blue); font-size: 40px;">حالة البث المباشر</h2>
+      <div style="margin: 25px 0;">
+          <span style="display:inline-block; width:15px; height:15px; background:red; border-radius:50%; animation:blink 1s infinite;"></span> 
+          <span style="color:red; font-weight:bold; font-size: 22px;">أبو ملك قد يكون في بث الآن!</span>
+      </div>
+      <p style="font-size: 22px; margin-bottom: 30px;">اضغط على الزر أدناه للانتقال لقناة Kick مباشرة</p>
+      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:18px 45px; border-radius:12px; text-decoration:none; font-weight:bold; font-size:24px; transition: 0.3s;">دخول البث على Kick</a>
     </div>
   </div>
 
   <div id="about-page" class="page">
     <div class="about-container">
       <h2>عن الموقع</h2>
-      <p>هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"أبو ملك"</strong>.</p>
-      <p>تم تصميم هذا الموقع ليكون الوجهة الأولى والأساسية لكل ما يخص "أبو ملك"، حيث يجمع لكم أحدث المقاطع من اليوتيوب، تنبيهات البثوث المباشرة على Kick، وآخر الأخبار من جميع منصات التواصل الاجتماعي الخاصة به في مكان واحد وبسهولة تامة.</p>
-      <p>هدفنا هو بناء مجتمع تفاعلي قوي يجمع كل المحبين والمتابعين لنبقى دائماً على اتصال بكل جديد يقدمه "أبو ملك".</p>
-      <hr style="border: 0.1px solid #333; margin: 30px 0;">
-      <p style="text-align: center; color: #777; font-size: 16px;">جميع الحقوق محفوظة © 2026 | صُنع بواسطة: ziyad (911)</p>
+      <p>هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"iMLKq"</strong>.</p>
+      <p>تم تصميم هذا الموقع ليكون الوجهة الأولى والأساسية لكل ما يخص "أبو ملك"، حيث يجمع لكم أحدث المقاطع من اليوتيوب، وتنبيهات البثوث المباشرة على منصة Kick، وآخر الأخبار من جميع حسابات التواصل الاجتماعي في مكان واحد.</p>
+      <p>نطمح لبناء مجتمع تفاعلي يجمع المحبين والمتابعين لنبقى دائماً على اتصال بكل جديد ومميز.</p>
+      <hr style="border: 0.1px solid #444; margin: 30px 0;">
+      <p style="text-align: center; color: #888; font-size: 16px;">جميع الحقوق محفوظة © 2026 | صُنع بواسطة: ziyad (911)</p>
     </div>
   </div>
 
   <script>
     function openNav() { document.getElementById("mySidebar").style.width = "300px"; }
     function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
+    
     function showPage(pageId) {
       var pages = document.getElementsByClassName('page');
       for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active-page');
       document.getElementById(pageId).classList.add('active-page');
       closeNav();
+      window.scrollTo(0,0);
     }
+
     function startClock() {
       setInterval(() => {
         const now = new Date();
