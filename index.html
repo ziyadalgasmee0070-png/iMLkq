@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>iMLKq | المقر الرسمي</title>
+<title>iMLKq</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
@@ -11,7 +11,6 @@
     --main-blue: #0074D9; 
     --kick-green: #2ecc71; 
     --light-blue: #7FDBFF; 
-    --live-red: #ff4d4d;
   }
 
   body {
@@ -23,13 +22,13 @@
 
   body::before {
     content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(12px); z-index: -1;
+    background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(12px); z-index: -1;
   }
 
   /* شاشة التحميل */
   #loading-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.98); display: flex; justify-content: center; align-items: center;
+    background: #000; display: flex; justify-content: center; align-items: center;
     z-index: 10000; animation: fadeOutScreen 0.5s forwards 2s;
   }
   .loading-text { font-size: 80px; font-weight: bold; color: var(--main-blue); animation: pulse 1s infinite alternate; }
@@ -55,13 +54,15 @@
     z-index: 4000; border-radius: 10px;
   }
 
+  /* القائمة الجانبية */
   .sidebar {
     height: 100%; width: 0; position: fixed; z-index: 5000; top: 0; right: 0;
-    background-color: rgba(0, 5, 15, 0.98); overflow-x: hidden; transition: 0.4s; padding-top: 80px;
+    background-color: rgba(0, 5, 15, 0.98); overflow-x: hidden; transition: 0.4s; padding-top: 20px;
   }
   .sidebar a { padding: 15px 25px; text-decoration: none; font-size: 22px; color: var(--light-blue); display: block; text-align: right; }
-  .sidebar .closebtn { position: absolute; top: 15px; left: 25px; font-size: 40px; color: white; cursor: pointer; }
+  .sidebar .closebtn { font-size: 40px; color: white; cursor: pointer; padding: 10px 25px; display: block; }
 
+  /* أيقونات التواصل */
   .social-sidebar {
     position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
     display: flex; flex-direction: column; gap: 12px; z-index: 3000;
@@ -81,6 +82,10 @@
   .about-container { background: rgba(0, 0, 0, 0.85); padding: 40px; border-radius: 20px; border: 2px solid var(--main-blue); text-align: right; line-height: 1.8; }
   header { text-align: center; margin-bottom: 50px; }
   .logo-img { width: 220px; height: 220px; border-radius: 50%; border: 5px solid var(--main-blue); }
+
+  /* حقل تسجيل الدخول */
+  input[type="text"] { width: 80%; padding: 15px; margin: 20px 0; border-radius: 10px; border: 1px solid var(--main-blue); background: #111; color: white; font-size: 18px; text-align: center; }
+  .btn-login { width: 85%; padding: 15px; background: var(--kick-green); color: black; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 20px; }
 </style>
 </head>
 <body onload="checkUser(); startClock();">
@@ -106,62 +111,70 @@
 
   <div id="mySidebar" class="sidebar">
     <span class="closebtn" onclick="closeNav()">×</span>
-    <div id="user-area"><a href="#" onclick="showPage('login-page')" style="background:var(--kick-green); color:black; font-weight:bold; text-align:center; border-radius:10px; margin:10px;">Login / حساب</a></div>
+    <div id="user-area">
+        <a href="#" onclick="showPage('login-page')" style="background:var(--kick-green); color:black; font-weight:bold; text-align:center; border-radius:10px; margin:15px; display:block;">Login / تسجيل دخول</a>
+    </div>
+    <hr style="border: 0.1px solid #333; margin: 10px 20px;">
     <a href="#" onclick="showPage('home-page')">الرئيسية</a>
     <a href="#" onclick="showPage('yt-page')">اليوتيوب</a>
     <a href="#" onclick="showPage('live-page')">البث المباشر</a>
     <a href="#" onclick="showPage('about-page')">عن الموقع</a>
+    <a href="#" id="logout-link" onclick="logout()" style="display:none; color: #ff4d4d; font-size: 16px;">تسجيل خروج</a>
   </div>
 
   <div id="home-page" class="page active-page">
     <header>
       <img src="IMG_9806.png" class="logo-img">
-      <h1 style="font-size: 80px; color: var(--light-blue); margin: 10px 0;">iMLKq</h1>
+      <h1 style="font-size: 85px; color: var(--light-blue); margin: 15px 0;">iMLKq</h1>
     </header>
   </div>
 
   <div id="yt-page" class="page">
-    <h2 style="text-align: center; color: var(--light-blue); font-size: 40px;">مقاطع اليوتيوب</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-        <a href="https://youtu.be/_tFB1fDSBdk" target="_blank"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
-        <a href="https://youtu.be/zrN12x_SkfA" target="_blank"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
-        <a href="https://youtu.be/C9kFIOq-lN8" target="_blank"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" style="width:100%; border-radius:15px;"></a>
+    <h2 style="text-align: center; color: var(--light-blue); font-size: 40px; margin-bottom: 30px;">مقاطع اليوتيوب</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        <a href="https://youtu.be/_tFB1fDSBdk" target="_blank"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
+        <a href="https://youtu.be/zrN12x_SkfA" target="_blank"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
+        <a href="https://youtu.be/C9kFIOq-lN8" target="_blank"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
     </div>
   </div>
 
   <div id="live-page" class="page">
-    <div style="background:rgba(0,0,0,0.8); padding:50px; border-radius:20px; border:2px solid var(--main-blue); text-align:center;">
-      <h2 style="color:var(--light-blue);">بث Kick المباشر</h2>
-      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:15px 40px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:22px; display:inline-block; margin-top:20px;">دخول البث</a>
+    <div style="background:rgba(0,0,0,0.85); padding:60px; border-radius:25px; border:2px solid var(--main-blue); text-align:center;">
+      <h2 style="color:var(--light-blue); font-size: 40px;">Kick Live</h2>
+      <p style="font-size: 20px; margin: 20px 0;">اضغط أدناه لمشاهدة البث المباشر</p>
+      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:15px 45px; border-radius:12px; text-decoration:none; font-weight:bold; font-size:24px; display:inline-block;">انتقل للبث</a>
     </div>
   </div>
 
   <div id="about-page" class="page">
     <div class="about-container">
       <h2 style="color:var(--light-blue); border-bottom:2px solid var(--main-blue); padding-bottom:10px;">عن الموقع</h2>
-      <p>هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"iMLKq"</strong>. يجمع لكم أحدث المقاطع والبثوث وآخر الأخبار في مكان واحد.</p>
-      <p>هدفنا بناء مجتمع تفاعلي يجمع كل المحبين لنبقى على اتصال دائم.</p>
-      <p style="text-align: center; color: #777; font-size: 14px; margin-top:30px;">© 2026 | صُنع بواسطة: ziyad (911)</p>
+      <p>هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"iMLKq"</strong>.</p>
+      <p>يجمع الموقع أحدث مقاطع اليوتيوب، وتنبيهات البثوث المباشرة، وآخر الأخبار في مكان واحد.</p>
+      <p>هدفنا بناء مجتمع تفاعلي يجمع كل المحبين لنبقى على اتصال دائم بجديد iMLKq.</p>
+      <p style="text-align: center; color: #777; font-size: 14px; margin-top:40px;">© 2026 | صُنع بواسطة: ziyad (911)</p>
     </div>
   </div>
 
   <div id="login-page" class="page">
-    <div style="background:rgba(0,0,0,0.9); padding:40px; border-radius:20px; border:1px solid var(--main-blue); text-align:center;">
-      <h2>إنشاء حساب</h2>
-      <input type="text" id="username-input" placeholder="اسم المستخدم" style="width:80%; padding:15px; margin:10px; border-radius:10px; border:none;">
-      <button onclick="registerUser()" style="width:85%; padding:15px; background:var(--kick-green); border:none; border-radius:10px; cursor:pointer;">دخول</button>
+    <div style="background:rgba(0,0,0,0.95); padding:50px; border-radius:25px; border:1px solid var(--main-blue); text-align:center;">
+      <h2 style="color:var(--light-blue);">تسجيل الدخول</h2>
+      <input type="text" id="username-input" placeholder="اكتب اسمك هنا">
+      <button class="btn-login" onclick="registerUser()">دخول للموقع</button>
     </div>
   </div>
 
   <script>
-    function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
+    function openNav() { document.getElementById("mySidebar").style.width = "300px"; }
     function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
+    
     function showPage(pageId) {
       var pages = document.getElementsByClassName('page');
       for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active-page');
       document.getElementById(pageId).classList.add('active-page');
       closeNav(); window.scrollTo(0,0);
     }
+
     function startClock() {
       setInterval(() => {
         const now = new Date();
@@ -169,21 +182,31 @@
         document.getElementById('clock-date').innerText = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
       }, 1000);
     }
+
     function registerUser() {
       const name = document.getElementById('username-input').value;
-      if(name.trim() === "") return;
+      if(name.trim() === "") { alert("الرجاء كتابة اسمك"); return; }
       localStorage.setItem('mlkq_user', name);
       location.reload();
     }
+
     function checkUser() {
       const savedUser = localStorage.getItem('mlkq_user');
+      const userArea = document.getElementById('user-area');
+      const logoutLink = document.getElementById('logout-link');
       if(savedUser) {
-        document.getElementById('user-area').innerHTML = `<div style="padding:15px; color:var(--kick-green); font-weight:bold; text-align:center;">👤 ${savedUser}</div>`;
+        userArea.innerHTML = `<div style="padding:20px; color:var(--kick-green); font-weight:bold; text-align:center; font-size:24px;">👤 ${savedUser}</div>`;
+        logoutLink.style.display = "block";
         setTimeout(() => {
           document.getElementById('welcome-toast').style.top = "30px";
           setTimeout(() => { document.getElementById('welcome-toast').style.top = "-150px"; }, 4000);
         }, 2500);
       }
+    }
+
+    function logout() {
+      localStorage.removeItem('mlkq_user');
+      location.reload();
     }
   </script>
 </body>
