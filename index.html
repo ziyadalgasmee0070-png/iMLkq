@@ -7,17 +7,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-  :root { 
-    --main-blue: #0074D9; 
-    --dark-bg: #000000; 
-    --kick-green: #2ecc71; 
-    --light-blue: #7FDBFF; 
-  }
+  :root { --main-blue: #0074D9; --dark-bg: #000000; --kick-green: #2ecc71; --light-blue: #7FDBFF; --live-red: #ff4d4d; }
 
   /* --- إعدادات الخلفية --- */
   body {
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     color: white;
     font-size: 20px;
     background-color: black;
@@ -29,124 +24,128 @@
     background-repeat: no-repeat;
   }
 
-  /* طبقة التغبيش الثابتة (Blur) */
   body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.4); 
+    background: rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(10px);
     z-index: -1;
   }
 
-  /* --- شاشة التحميل (ناعمة وسلسة) --- */
-  #loading-screen {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 1);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 10000;
-    transition: opacity 1.5s ease-in-out, visibility 1.5s; /* تأثير ناعم جداً */
-  }
-  .loading-text { 
-    font-size: 80px; 
-    font-weight: bold; 
-    color: var(--main-blue); 
-    text-shadow: 0 0 30px var(--main-blue);
-    animation: smoothPulse 2s infinite ease-in-out;
-  }
-  @keyframes smoothPulse {
-    0% { transform: scale(0.95); opacity: 0.5; }
-    50% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(0.95); opacity: 0.5; }
+  /* --- التاريخ والوقت (فوق يسار) --- */
+  #date-time-box {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: 1px solid var(--main-blue);
+    font-size: 16px;
+    color: var(--light-blue);
+    z-index: 2500;
+    text-align: left;
+    direction: ltr; /* لضبط شكل الوقت الإنجليزي */
+    box-shadow: 0 0 15px rgba(0, 116, 217, 0.3);
   }
 
-  /* --- القائمة الجانبية (Sidebar) --- */
+  /* --- شاشة التحميل --- */
+  #loading-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(20px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 10000; animation: fadeOutScreen 0.5s forwards 2s;
+  }
+  .loading-text { font-size: 80px; font-weight: bold; color: var(--main-blue); }
+  @keyframes fadeOutScreen { to { opacity: 0; visibility: hidden; } }
+
+  /* --- القائمة الجانبية --- */
   .sidebar {
     height: 100%; width: 0; position: fixed; z-index: 3000;
-    top: 0; right: 0; background-color: rgba(0, 8, 20, 0.98);
-    overflow-x: hidden; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    padding-top: 80px;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.9);
+    top: 0; right: 0; background-color: rgba(0, 10, 26, 0.98);
+    overflow-x: hidden; transition: 0.4s; padding-top: 80px;
   }
   .sidebar a {
-    padding: 20px 30px; text-decoration: none; font-size: 24px;
-    color: var(--light-blue); display: block; transition: 0.3s;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 20px 25px; text-decoration: none; font-size: 22px;
+    color: var(--light-blue); display: block; border-bottom: 1px solid rgba(255,255,255,0.1);
   }
-  .sidebar a:hover { background: var(--main-blue); color: white; padding-right: 40px; }
-  .sidebar .closebtn { position: absolute; top: 15px; left: 25px; font-size: 50px; color: white; cursor: pointer; }
+  .sidebar .closebtn { position: absolute; top: 15px; left: 25px; font-size: 45px; color: white; cursor: pointer; }
 
   .openbtn {
     font-size: 30px; cursor: pointer; background: var(--main-blue); color: white;
-    padding: 12px 20px; border: none; position: fixed; top: 20px; right: 20px;
-    z-index: 2500; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,116,217,0.4);
+    padding: 12px 18px; border: none; position: fixed; top: 20px; right: 20px;
+    z-index: 2500; border-radius: 10px;
   }
 
-  /* --- روابط التواصل على اليسار --- */
+  /* --- روابط التواصل السريعة --- */
   .social-sidebar {
-    position: fixed; left: 15px; top: 50%; transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 15px; z-index: 1000;
+    position: fixed; left: 15px; top: 55%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 12px; z-index: 1000;
   }
   .social-icon {
-    width: 55px; height: 55px; border-radius: 50%; display: flex;
-    justify-content: center; align-items: center; color: white;
-    font-size: 26px; text-decoration: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    width: 50px; height: 50px; border-radius: 50%; display: flex;
+    justify-content: center; align-items: center; color: white; font-size: 24px; text-decoration: none; transition: 0.3s;
   }
-  .social-icon:hover { transform: scale(1.2) rotate(10deg); }
   .kick { background: #53fc18; color: black; }
   .discord { background: #5865F2; }
-  .whatsapp { background: #25d366; }
-  .youtube-color { background: #ff0000; }
-  .instagram { background: #e1306c; }
-  .twitter { background: #1da1f2; }
 
-  /* --- محتوى الصفحة --- */
-  header { padding: 100px 20px; text-align: center; }
-  .logo-img { 
-    width: 250px; height: 250px; border-radius: 50%; object-fit: cover; 
-    border: 6px solid var(--main-blue); filter: drop-shadow(0 0 25px var(--main-blue)); 
-    animation: float 4s infinite ease-in-out;
+  /* --- محتوى الصفحة الرئيسي --- */
+  header { padding: 90px 20px; text-align: center; }
+  .logo-img { width: 230px; height: 230px; border-radius: 50%; border: 5px solid var(--main-blue); filter: drop-shadow(0 0 20px var(--main-blue)); }
+  h1 { font-size: 65px; color: var(--light-blue); margin: 15px 0; text-shadow: 2px 2px 15px black; }
+
+  /* صفحة البث المباشر المحدثة */
+  .live-status-container {
+    background: rgba(10, 10, 10, 0.85);
+    padding: 50px;
+    border-radius: 25px;
+    border: 2px solid var(--main-blue);
+    max-width: 600px;
+    margin: 50px auto;
+    text-align: center;
   }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .status-indicator {
+    display: inline-block;
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    margin-left: 10px;
+    animation: blink 1s infinite;
+  }
+  .status-live { background: var(--live-red); box-shadow: 0 0 10px var(--live-red); }
+  .status-offline { background: #888; animation: none; }
+  @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-  h1 { font-size: 70px; color: var(--light-blue); margin: 20px 0; text-shadow: 0 5px 15px rgba(0,0,0,0.9); }
-
-  /* شبكة اليوتيوب */
-  .yt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 30px; }
-  .yt-card { background: rgba(0, 0, 0, 0.7); border-radius: 20px; overflow: hidden; border: 1px solid #333; transition: 0.4s; position: relative; }
-  .yt-card:hover { transform: translateY(-10px); border-color: var(--main-blue); box-shadow: 0 10px 30px rgba(0,116,217,0.3); }
-  .yt-card img { width: 100%; height: auto; border-bottom: 2px solid var(--main-blue); }
-  .yt-card p { padding: 15px; text-align: center; font-weight: bold; }
+  .kick-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 15px 40px;
+    background: var(--kick-green);
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 12px;
+    font-size: 24px;
+    transition: 0.3s;
+  }
+  .kick-btn:hover { transform: scale(1.05); filter: brightness(1.2); }
 
   /* العدادات */
-  .counters-container { 
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-    gap: 25px; padding: 50px 20px; background: rgba(0,0,0,0.6); 
-    backdrop-filter: blur(5px); border-top: 1px solid rgba(255,255,255,0.1); 
-  }
-  .counter-box { 
-    padding: 30px; border-radius: 20px; background: rgba(15,15,15,0.8); 
-    border: 1px solid var(--main-blue); text-align: center; transition: 0.3s;
-  }
-  .counter-box:hover { background: rgba(0,116,217,0.1); transform: scale(1.05); }
-  .counter-number { font-size: 40px; font-weight: bold; color: var(--kick-green); display: block; margin-bottom: 5px; }
-
-  /* الصفحات */
-  .page { display: none; padding: 20px; animation: fadeIn 0.8s ease-out forwards; }
+  .counters-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 40px 20px; background: rgba(0,0,0,0.5); }
+  .counter-box { padding: 25px; border-radius: 15px; background: rgba(10,10,10,0.8); border: 1px solid var(--main-blue); text-align: center; }
+  
+  .page { display: none; padding: 20px; animation: fadeIn 0.5s forwards; }
   .active-page { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-  #welcome-toast { 
-    position: fixed; top: -120px; left: 50%; transform: translateX(-50%); 
-    background: var(--kick-green); color: black; padding: 18px 50px; 
-    border-radius: 60px; font-weight: bold; z-index: 11000; 
-    transition: 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); font-size: 24px; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  #welcome-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--kick-green); color: black; padding: 15px 40px; border-radius: 50px; font-weight: bold; z-index: 11000; transition: 0.5s; font-size: 22px; }
 </style>
 </head>
-<body onload="checkUser()">
+<body onload="checkUser(); startClock();">
+
+  <div id="date-time-box">
+    <div id="clock-time">00:00:00 AM</div>
+    <div id="clock-date" style="font-size: 13px; color: #888;">Friday, Feb 20, 2026</div>
+  </div>
 
   <div id="loading-screen"><div class="loading-text">iMLkq</div></div>
   <div id="welcome-toast">أهلاً بك في عائلة أبو ملك</div>
@@ -156,20 +155,16 @@
   <div class="social-sidebar">
     <a href="https://kick.com/imlkq" target="_blank" class="social-icon kick"><i class="fa-solid fa-k"></i></a>
     <a href="https://discord.gg/imlkq" target="_blank" class="social-icon discord"><i class="fa-brands fa-discord"></i></a>
-    <a href="https://whatsapp.com/channel/0029VaeFkY9FXUuV971StZ0W" target="_blank" class="social-icon whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
-    <a href="https://youtube.com/@imlkq1" target="_blank" class="social-icon youtube-color"><i class="fa-brands fa-youtube"></i></a>
-    <a href="https://www.instagram.com/imlkq1" target="_blank" class="social-icon instagram"><i class="fa-brands fa-instagram"></i></a>
-    <a href="https://x.com/imlkq1" target="_blank" class="social-icon twitter"><i class="fa-brands fa-x-twitter"></i></a>
   </div>
 
   <div id="mySidebar" class="sidebar">
     <span class="closebtn" onclick="closeNav()">×</span>
     <div id="user-area">
-      <a href="#" onclick="showPage('login-page')" style="background: var(--kick-green); color: black; font-weight: bold; text-align: center; border-radius: 8px; margin: 15px;">Login / إنشاء حساب</a>
+      <a href="#" onclick="showPage('login-page')" style="background: var(--kick-green); color: black; font-weight: bold; text-align: center; border-radius: 5px; margin: 10px;">Login / إنشاء حساب</a>
     </div>
     <a href="#" onclick="showPage('home-page')">1- الرئيسية</a>
     <a href="#" onclick="showPage('yt-page')">2- مقاطع اليوتيوب</a>
-    <a href="#" onclick="showPage('home-page')">3- البثوث المباشرة</a>
+    <a href="#" onclick="showPage('live-page')">3- البثوث المباشرة</a>
     <a href="#" onclick="showPage('about-page')">4- عن الموقع</a>
   </div>
 
@@ -179,75 +174,67 @@
       <h1>iMLkq</h1>
     </header>
     <div class="counters-container">
-      <div class="counter-box"><span class="counter-number">37.3K+</span><span style="color:#aaa">Kick Followers</span></div>
-      <div class="counter-box"><span class="counter-number">10K+</span><span style="color:#aaa">YouTube Subs</span></div>
-      <div class="counter-box"><span class="counter-number">1M+</span><span style="color:#aaa">Total Views</span></div>
+      <div class="counter-box"><span style="font-size:38px; color:var(--kick-green); font-weight:bold;">37.3K+</span><br><span style="color:#aaa">Kick Followers</span></div>
+      <div class="counter-box"><span style="font-size:38px; color:var(--kick-green); font-weight:bold;">10K+</span><br><span style="color:#aaa">YouTube Subs</span></div>
+      <div class="counter-box"><span style="font-size:38px; color:var(--kick-green); font-weight:bold;">1M+</span><br><span style="color:#aaa">Total Views</span></div>
+    </div>
+  </div>
+
+  <div id="live-page" class="page" style="margin-top: 100px;">
+    <div class="live-status-container">
+        <h2 style="font-size: 40px; margin-bottom: 10px; color: var(--light-blue);">حالة البث المباشر</h2>
+        
+        <div id="status-box">
+            <span class="status-indicator status-live"></span>
+            <span style="font-size: 22px; color: var(--live-red); font-weight: bold;">البث قد يكون متاحاً الآن!</span>
+        </div>
+
+        <p style="margin-top: 20px; color: #ccc;">تحقق من قناة أبو ملك الرسمية على منصة Kick لمتابعة المتعة والجلد!</p>
+        
+        <a href="https://kick.com/imlkq" target="_blank" class="kick-btn">
+            <i class="fa-solid fa-play" style="margin-left: 10px;"></i>
+            انتقل إلى البث المباشر
+        </a>
     </div>
   </div>
 
   <div id="yt-page" class="page" style="margin-top: 80px;">
-    <h2 style="text-align: center; color: var(--light-blue); font-size: 50px;">آخر المقاطع</h2>
-    <div class="yt-grid">
-      <a href="https://youtu.be/_tFB1fDSBdk" target="_blank" class="yt-card"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" alt="V1"><p>مشاهدة المقطع</p></a>
-      <a href="https://youtu.be/zrN12x_SkfA" target="_blank" class="yt-card"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" alt="V2"><p>مشاهدة المقطع</p></a>
-      <a href="https://youtu.be/C9kFIOq-lN8" target="_blank" class="yt-card"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" alt="V3"><p>مشاهدة المقطع</p></a>
-    </div>
-  </div>
-
-  <div id="about-page" class="page">
-    <div style="background: rgba(0,0,0,0.85); padding: 50px; border-radius: 30px; border: 1px solid var(--main-blue); margin: 60px auto; max-width: 800px; text-align: right; line-height: 2;">
-      <h2 style="color: var(--light-blue); font-size: 40px; border-bottom: 2px solid var(--main-blue); padding-bottom: 15px;">عن الموقع</h2>
-      <p>هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"أبو ملك"</strong>. تم تصميم هذا السيرفر ليكون الوجهة الأولى لكل ما يخص "أبو ملك"، حيث يجمع لكم أحدث المقاطع، البثوث المباشرة، وآخر الأخبار من جميع منصات التواصل الاجتماعي الخاصة به في مكان واحد.</p>
-      <p>نطمح هنا لبناء مجتمع تفاعلي يجمع المحبين والمتابعين، لنبقى دائماً على اتصال بكل جديد ومميز يقدمه "أبو ملك".</p>
-      <hr style="border: 0.1px solid #444; margin: 30px 0;">
-      <p style="text-align: center; color: #bbb; font-size: 18px;">جميع الحقوق محفوظة © 2026. صُنع بكل حب من قبل: <strong>911 (zeyad)</strong></p>
-    </div>
-  </div>
-
-  <div id="login-page" class="page">
-    <div style="background: rgba(0,0,0,0.9); padding: 50px; border-radius: 25px; border: 1px solid var(--main-blue); margin: 100px auto; max-width: 500px; text-align: center;">
-      <h2 style="color: var(--light-blue);">إنشاء حساب</h2>
-      <input type="text" id="username-input" placeholder="اسم المستخدم" style="width:90%; padding:18px; margin:15px 0; background:#111; border:1px solid var(--main-blue); color:white; border-radius:10px; font-size: 20px;">
-      <button onclick="registerUser()" style="width:95%; padding:18px; background:var(--kick-green); border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-size: 22px;">دخول</button>
+    <h2 style="text-align: center; color: var(--light-blue); font-size: 45px;">آخر المقاطع</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 20px;">
+      <a href="https://youtu.be/_tFB1fDSBdk" target="_blank"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid #333;"></a>
+      <a href="https://youtu.be/zrN12x_SkfA" target="_blank"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid #333;"></a>
+      <a href="https://youtu.be/C9kFIOq-lN8" target="_blank"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid #333;"></a>
     </div>
   </div>
 
   <script>
-    function openNav() { document.getElementById("mySidebar").style.width = "350px"; }
+    function openNav() { document.getElementById("mySidebar").style.width = "320px"; }
     function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
     
     function showPage(pageId) {
       var pages = document.getElementsByClassName('page');
       for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active-page');
       document.getElementById(pageId).classList.add('active-page');
-      closeNav(); window.scrollTo({top: 0, behavior: 'smooth'});
+      closeNav(); window.scrollTo(0,0);
     }
 
-    // إخفاء شاشة التحميل بنعومة
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        const loader = document.getElementById('loading-screen');
-        loader.style.opacity = '0';
-        setTimeout(() => { loader.style.visibility = 'hidden'; }, 1500);
-      }, 2000);
-    });
-
-    function registerUser() {
-      const name = document.getElementById('username-input').value;
-      if(name.trim() === "") return;
-      localStorage.setItem('mlkq_user', name);
-      location.reload();
+    // وظيفة الساعة الذكية
+    function startClock() {
+      setInterval(() => {
+        const now = new Date();
+        const optionsDate = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+        const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const dateStr = now.toLocaleDateString('en-US', optionsDate);
+        
+        document.getElementById('clock-time').innerText = timeStr;
+        document.getElementById('clock-date').innerText = dateStr;
+      }, 1000);
     }
 
     function checkUser() {
       const savedUser = localStorage.getItem('mlkq_user');
       if(savedUser) {
-        document.getElementById('user-area').innerHTML = `<div style="padding:25px; color:var(--kick-green); font-weight:bold; text-align:center; font-size: 22px; border: 1px dashed var(--kick-green); margin: 15px; border-radius: 10px;">👤 ${savedUser}</div>`;
-        setTimeout(() => {
-          const toast = document.getElementById('welcome-toast');
-          toast.style.top = "30px";
-          setTimeout(() => { toast.style.top = "-150px"; }, 4000);
-        }, 3500);
+        document.getElementById('user-area').innerHTML = `<div style="padding:20px; color:var(--kick-green); font-weight:bold; text-align:center;">👤 ${savedUser}</div>`;
       }
     }
   </script>
