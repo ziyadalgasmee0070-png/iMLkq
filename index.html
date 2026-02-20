@@ -8,113 +8,73 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-  /* --- المتغيرات الأساسية --- */
   :root { 
     --main-blue: #0074D9; 
-    --dark-bg: #000000; 
     --kick-green: #2ecc71; 
     --light-blue: #7FDBFF; 
     --live-red: #ff4d4d;
     --discord-blurple: #5865F2;
   }
 
-  /* --- إعدادات الخلفية العامة للموقع --- */
+  /* --- إعدادات الخلفية --- */
   body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
-    font-size: 20px;
-    background-color: black;
-    overflow-x: hidden;
-    background-image: url('IMG_2566.jpeg'); 
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    direction: rtl;
+    margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: white; font-size: 20px; background-color: black; overflow-x: hidden;
+    background-image: url('IMG_2566.jpeg'); background-size: cover;
+    background-position: center; background-attachment: fixed; background-repeat: no-repeat;
   }
 
-  /* طبقة التغبيش (Blur) الدائمة خلف المحتوى */
   body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(10px);
-    z-index: -1;
+    content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(10px); z-index: -1;
   }
 
-  /* --- التاريخ والوقت (فوق يسار) --- */
+  /* --- التاريخ والوقت --- */
   #date-time-box {
-    position: fixed;
-    top: 25px;
-    left: 25px;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 12px 20px;
-    border-radius: 15px;
-    border: 1px solid var(--main-blue);
-    font-size: 18px;
-    color: var(--light-blue);
-    z-index: 2500;
-    text-align: left;
-    direction: ltr;
-    box-shadow: 0 0 20px rgba(0, 116, 217, 0.4);
+    position: fixed; top: 25px; left: 25px; background: rgba(0, 0, 0, 0.7);
+    padding: 12px 20px; border-radius: 15px; border: 1px solid var(--main-blue);
+    font-size: 18px; color: var(--light-blue); z-index: 2500; text-align: left; direction: ltr;
   }
 
-  /* --- شاشة التحميل (Loading) --- */
+  /* --- شاشة التحميل --- */
   #loading-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(25px);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 10000; animation: fadeOutScreen 0.5s forwards 2s;
+    display: flex; justify-content: center; align-items: center; z-index: 10000;
+    animation: fadeOutScreen 0.5s forwards 2s;
   }
-  .loading-text { 
-    font-size: 90px; 
-    font-weight: bold; 
-    color: var(--main-blue); 
-    text-shadow: 0 0 30px var(--main-blue);
-    animation: pulseText 1s infinite alternate;
-  }
+  .loading-text { font-size: 80px; font-weight: bold; color: var(--main-blue); animation: pulseText 1s infinite alternate; }
   @keyframes pulseText { from { transform: scale(1); } to { transform: scale(1.1); } }
   @keyframes fadeOutScreen { to { opacity: 0; visibility: hidden; } }
 
-  /* --- القائمة الجانبية (Sidebar) --- */
+  /* --- القائمة الجانبية --- */
   .sidebar {
-    height: 100%; width: 0; position: fixed; z-index: 3000;
-    top: 0; right: 0; background-color: rgba(0, 10, 26, 0.98);
-    overflow-x: hidden; transition: 0.4s; padding-top: 80px;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.9);
+    height: 100%; width: 0; position: fixed; z-index: 3000; top: 0; right: 0;
+    background-color: rgba(0, 10, 26, 0.98); overflow-x: hidden; transition: 0.4s; padding-top: 80px;
   }
   .sidebar a {
-    padding: 22px 30px; text-decoration: none; font-size: 24px;
-    color: var(--light-blue); display: block; border-bottom: 1px solid rgba(255,255,255,0.05);
-    transition: 0.3s; text-align: right;
+    padding: 22px 30px; text-decoration: none; font-size: 24px; color: var(--light-blue);
+    display: block; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: right;
   }
-  .sidebar a:hover { background: var(--main-blue); color: white; padding-right: 40px; }
   .sidebar .closebtn { position: absolute; top: 15px; left: 30px; font-size: 50px; color: white; cursor: pointer; }
 
-  /* زر فتح القائمة (الهمبرغر) */
   .openbtn {
     font-size: 35px; cursor: pointer; background: var(--main-blue); color: white;
     padding: 15px 20px; border: none; position: fixed; top: 25px; right: 25px;
-    z-index: 2500; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,116,217,0.5);
-    transition: 0.3s;
+    z-index: 2500; border-radius: 12px;
   }
-  .openbtn:hover { background: var(--light-blue); color: black; }
 
-  /* --- روابط التواصل (اليسار) --- */
+  /* --- روابط التواصل السريعة (يسار) --- */
   .social-sidebar {
-    position: fixed; left: 20px; top: 55%; transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 15px; z-index: 1000;
+    position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 12px; z-index: 1000;
   }
   .social-icon {
-    width: 55px; height: 55px; border-radius: 50%; display: flex;
-    justify-content: center; align-items: center; color: white;
-    font-size: 26px; text-decoration: none; transition: 0.4s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+    width: 50px; height: 50px; border-radius: 50%; display: flex;
+    justify-content: center; align-items: center; color: white; font-size: 24px;
+    text-decoration: none; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
   }
-  .social-icon:hover { transform: scale(1.2) rotate(360deg); }
+  .social-icon:hover { transform: scale(1.2); }
   .kick { background: #53fc18; color: black; }
   .discord { background: var(--discord-blurple); }
   .whatsapp { background: #25d366; }
@@ -122,94 +82,36 @@
   .instagram { background: #e1306c; }
   .twitter { background: #1da1f2; }
 
-  /* --- تصميم الصفحة الرئيسية --- */
-  header { padding: 100px 20px; text-align: center; animation: fadeInDown 1s ease-out 2.2s both; }
-  .logo-img { 
-    width: 250px; height: 250px; border-radius: 50%; object-fit: cover;
-    border: 6px solid var(--main-blue); filter: drop-shadow(0 0 25px var(--main-blue));
-  }
-  h1 { font-size: 75px; color: var(--light-blue); margin: 20px 0; text-shadow: 3px 3px 20px black; }
+  /* --- المحتوى الرئيسي --- */
+  header { padding: 100px 20px; text-align: center; }
+  .logo-img { width: 230px; height: 230px; border-radius: 50%; border: 5px solid var(--main-blue); filter: drop-shadow(0 0 20px var(--main-blue)); }
+  h1 { font-size: 70px; color: var(--light-blue); margin: 20px 0; text-shadow: 2px 2px 15px black; }
 
-  /* --- صناديق العدادات --- */
-  .counters-container { 
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-    gap: 25px; padding: 50px 30px; background: rgba(0,0,0,0.6); 
-    border-top: 1px solid rgba(255,255,255,0.1);
-  }
-  .counter-box { 
-    padding: 35px; border-radius: 20px; background: rgba(10,10,10,0.85); 
-    border: 1px solid var(--main-blue); text-align: center; transition: 0.3s;
-  }
-  .counter-box:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,116,217,0.3); }
-  .counter-number { font-size: 45px; font-weight: bold; color: var(--kick-green); display: block; }
+  .counters-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 40px 20px; background: rgba(0,0,0,0.5); }
+  .counter-box { padding: 30px; border-radius: 20px; background: rgba(10,10,10,0.8); border: 1px solid var(--main-blue); text-align: center; }
+  .counter-number { font-size: 40px; font-weight: bold; color: var(--kick-green); display: block; }
 
-  /* --- صفحة البثوث المباشرة --- */
-  .live-status-container {
-    background: rgba(10, 10, 10, 0.9); padding: 60px;
-    border-radius: 30px; border: 2px solid var(--main-blue);
-    max-width: 650px; margin: 80px auto; text-align: center;
-    box-shadow: 0 0 40px rgba(0, 116, 217, 0.2);
-  }
-  .status-indicator {
-    display: inline-block; width: 18px; height: 18px;
-    border-radius: 50%; margin-left: 12px;
-  }
-  .status-live { background: var(--live-red); box-shadow: 0 0 15px var(--live-red); animation: blink 1s infinite; }
-  @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-  .kick-btn {
-    display: inline-block; margin-top: 40px; padding: 18px 50px;
-    background: var(--kick-green); color: black; text-decoration: none;
-    font-weight: bold; border-radius: 15px; font-size: 26px; transition: 0.3s;
+  /* صفحة عن الموقع - التأكد من وجود الكلام */
+  .about-content {
+    background: rgba(0, 0, 0, 0.85); padding: 50px; border-radius: 30px;
+    border: 1px solid var(--main-blue); margin: 60px auto; max-width: 800px;
+    text-align: right; line-height: 1.8;
   }
 
-  /* --- شبكة اليوتيوب --- */
-  .yt-grid { 
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-    gap: 30px; padding: 40px; 
-  }
-  .yt-card { 
-    background: rgba(0, 0, 0, 0.8); border-radius: 20px; overflow: hidden; 
-    border: 1px solid #333; transition: 0.4s; text-decoration: none; color: white;
-  }
-  .yt-card:hover { transform: scale(1.05); border-color: var(--main-blue); }
-  .yt-card img { width: 100%; height: auto; display: block; }
-  .yt-card p { padding: 20px; text-align: center; font-size: 22px; font-weight: bold; }
-
-  /* --- إعدادات الصفحات --- */
-  .page { display: none; padding: 40px 20px; animation: fadeIn 0.6s forwards; }
+  .page { display: none; padding: 20px; animation: fadeIn 0.5s forwards; }
   .active-page { display: block; }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-
-  /* --- رسالة الترحيب (Toast) --- */
-  #welcome-toast { 
-    position: fixed; top: -120px; left: 50%; transform: translateX(-50%); 
-    background: var(--kick-green); color: black; padding: 20px 50px; 
-    border-radius: 60px; font-weight: bold; z-index: 11000; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    font-size: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  }
-
-  /* --- حقول الإدخال --- */
-  input[type="text"] {
-    width: 90%; padding: 18px; margin: 15px 0; background: #111;
-    border: 1px solid var(--main-blue); color: white; border-radius: 12px; font-size: 20px; text-align: center;
-  }
-  .btn-submit {
-    width: 95%; padding: 18px; background: var(--kick-green); border: none;
-    border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 22px; margin-top: 15px;
-  }
+  #welcome-toast { position: fixed; top: -120px; left: 50%; transform: translateX(-50%); background: var(--kick-green); color: black; padding: 20px 50px; border-radius: 60px; font-weight: bold; z-index: 11000; transition: 0.6s; font-size: 22px; }
 </style>
 </head>
 <body onload="checkUser(); startClock();">
 
   <div id="loading-screen"><div class="loading-text">أبو ملك</div></div>
-
   <div id="welcome-toast">أهلاً بك في عائلة أبو ملك</div>
 
   <div id="date-time-box">
     <div id="clock-time">00:00:00 AM</div>
-    <div id="clock-date" style="font-size: 14px; color: #888; margin-top: 5px;">Friday, Feb 20, 2026</div>
+    <div id="clock-date" style="font-size: 14px; color: #888;">Friday, Feb 20, 2026</div>
   </div>
 
   <button class="openbtn" onclick="openNav()">☰</button>
@@ -232,7 +134,6 @@
     <a href="#" onclick="showPage('yt-page')">2- مقاطع اليوتيوب</a>
     <a href="#" onclick="showPage('live-page')">3- البثوث المباشرة</a>
     <a href="#" onclick="showPage('about-page')">4- عن الموقع</a>
-    <a href="#" id="logout-btn" onclick="logout()" style="display:none; color: #ff4d4d; margin-top: 20px; font-size: 16px; text-align: center;">تسجيل الخروج</a>
   </div>
 
   <div id="home-page" class="page active-page">
@@ -240,133 +141,80 @@
       <img src="IMG_9806.png" alt="Logo" class="logo-img">
       <h1>أبو ملك</h1>
     </header>
-    
     <div class="counters-container">
-      <div class="counter-box">
-        <span class="counter-number">37.3K+</span>
-        <span style="color:#aaa">متابع على Kick</span>
-      </div>
-      <div class="counter-box">
-        <span class="counter-number">10K+</span>
-        <span style="color:#aaa">مشترك يوتيوب</span>
-      </div>
-      <div class="counter-box">
-        <span class="counter-number">1M+</span>
-        <span style="color:#aaa">إجمالي المشاهدات</span>
-      </div>
+      <div class="counter-box"><span class="counter-number">37.3K+</span><span style="color:#aaa">متابع كيك</span></div>
+      <div class="counter-box"><span class="counter-number">10K+</span><span style="color:#aaa">مشترك يوتيوب</span></div>
+      <div class="counter-box"><span class="counter-number">1M+</span><span style="color:#aaa">إجمالي المشاهدات</span></div>
     </div>
   </div>
 
   <div id="yt-page" class="page" style="margin-top: 50px;">
-    <h2 style="text-align: center; color: var(--light-blue); font-size: 50px; margin-bottom: 40px;">آخر مقاطع اليوتيوب</h2>
-    <div class="yt-grid">
-      <a href="https://youtu.be/_tFB1fDSBdk" target="_blank" class="yt-card">
-        <img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" alt="Video">
-        <p>مشاهدة المقطع الأول</p>
-      </a>
-      <a href="https://youtu.be/zrN12x_SkfA" target="_blank" class="yt-card">
-        <img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" alt="Video">
-        <p>مشاهدة المقطع الثاني</p>
-      </a>
-      <a href="https://youtu.be/C9kFIOq-lN8" target="_blank" class="yt-card">
-        <img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" alt="Video">
-        <p>مشاهدة المقطع الثالث</p>
-      </a>
+    <h2 style="text-align: center; color: var(--light-blue); font-size: 45px;">آخر المقاطع</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px;">
+      <a href="https://youtu.be/_tFB1fDSBdk" target="_blank"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
+      <a href="https://youtu.be/zrN12x_SkfA" target="_blank"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
+      <a href="https://youtu.be/C9kFIOq-lN8" target="_blank"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
     </div>
   </div>
 
-  <div id="live-page" class="page" style="margin-top: 50px;">
-    <div class="live-status-container">
-        <h2 style="font-size: 45px; margin-bottom: 15px; color: var(--light-blue);">حالة البث المباشر</h2>
-        <div id="status-box">
-            <span class="status-indicator status-live"></span>
-            <span style="font-size: 26px; color: var(--live-red); font-weight: bold;">أبو ملك قد يكون في بث الآن!</span>
-        </div>
-        <p style="margin-top: 25px; color: #ccc; font-size: 22px;">لا تفوت المتعة والجلد، انتقل مباشرة إلى منصة Kick.</p>
-        <a href="https://kick.com/imlkq" target="_blank" class="kick-btn">
-            <i class="fa-solid fa-play" style="margin-left: 15px;"></i>دخول البث المباشر
-        </a>
+  <div id="live-page" class="page" style="margin-top: 80px;">
+    <div style="background: rgba(10,10,10,0.9); padding: 50px; border-radius: 30px; border: 2px solid var(--main-blue); max-width: 600px; margin: auto; text-align: center;">
+      <h2 style="color: var(--light-blue); font-size: 40px;">البث المباشر</h2>
+      <div style="margin: 20px 0;"><span style="display:inline-block; width:15px; height:15px; background:red; border-radius:50%; animation:blink 1s infinite;"></span> <span style="color:red; font-weight:bold;">LIVE NOW</span></div>
+      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:15px 40px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:24px;">مشاهدة البث على Kick</a>
     </div>
   </div>
 
   <div id="about-page" class="page">
-    <div style="background: rgba(0,0,0,0.85); padding: 50px; border-radius: 30px; border: 1px solid var(--main-blue); margin: 60px auto; max-width: 800px; text-align: right; line-height: 1.8;">
-      <h2 style="color: var(--light-blue); font-size: 40px; border-bottom: 2px solid var(--main-blue); padding-bottom: 15px; margin-bottom: 25px;">عن الموقع</h2>
-      <p style="font-size: 24px;">هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"أبو ملك"</strong>. تم تصميم هذا السيرفر ليكون الوجهة الأولى لكل ما يخص "أبو ملك"، حيث يجمع لكم أحدث المقاطع، البثوث المباشرة، وآخر الأخبار من جميع منصات التواصل الاجتماعي الخاصة به في مكان واحد.</p>
-      <p style="font-size: 24px;">نطمح هنا لبناء مجتمع تفاعلي يجمع المحبين والمتابعين، لنبقى دائماً على اتصال بكل جديد ومميز يقدمه "أبو ملك".</p>
-      <hr style="border: 0.1px solid #444; margin: 30px 0;">
-      <p style="text-align: center; color: #bbb; font-size: 18px;">جميع الحقوق محفوظة © 2026. صُنع بكل حب من قبل: <strong>911 (zeyad)</strong></p>
+    <div class="about-content">
+      <h2 style="color: var(--light-blue); font-size: 35px; border-bottom: 2px solid var(--main-blue); padding-bottom: 10px;">عن الموقع</h2>
+      <p style="font-size: 22px;">هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"أبو ملك"</strong>. تم تصميم هذا الموقع ليكون الوجهة الأولى لكل ما يخص أبو ملك، حيث يجمع لكم أحدث المقاطع، البثوث المباشرة، وآخر الأخبار من جميع منصات التواصل الاجتماعي الخاصة به في مكان واحد.</p>
+      <p style="font-size: 22px;">نطمح هنا لبناء مجتمع تفاعلي يجمع المحبين والمتابعين، لنبقى دائماً على اتصال بكل جديد ومميز يقدمه أبو ملك.</p>
+      <hr style="border: 0.1px solid #444; margin: 25px 0;">
+      <p style="text-align: center; color: #888; font-size: 16px;">جميع الحقوق محفوظة © 2026. صُنع بكل حب من قبل: 911 (zeyad)</p>
     </div>
   </div>
 
   <div id="login-page" class="page">
-    <div style="background: rgba(0,0,0,0.9); padding: 50px; border-radius: 25px; border: 1px solid var(--main-blue); margin: 100px auto; max-width: 550px; text-align: center;">
-      <h2 style="color: var(--light-blue); font-size: 35px; margin-bottom: 30px;">إنشاء حساب جديد</h2>
-      <input type="text" id="username-input" placeholder="ادخل اسم المستخدم">
-      <button class="btn-submit" onclick="registerUser()">تسجيل ودخول</button>
+    <div style="background: rgba(0,0,0,0.9); padding: 50px; border-radius: 20px; border: 1px solid var(--main-blue); margin: 100px auto; max-width: 500px; text-align: center;">
+      <h2>إنشاء حساب</h2>
+      <input type="text" id="username-input" placeholder="ادخل اسمك هنا" style="width:90%; padding:15px; margin:10px 0; background:#111; border:1px solid var(--main-blue); color:white; border-radius:10px;">
+      <button onclick="registerUser()" style="width:95%; padding:15px; background:var(--kick-green); border:none; border-radius:10px; font-weight:bold; cursor:pointer;">دخول</button>
     </div>
   </div>
 
   <script>
-    // فتح وإغلاق القائمة الجانبية
-    function openNav() { document.getElementById("mySidebar").style.width = "350px"; }
+    function openNav() { document.getElementById("mySidebar").style.width = "320px"; }
     function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
-    
-    // التنقل بين الصفحات
     function showPage(pageId) {
       var pages = document.getElementsByClassName('page');
       for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active-page');
       document.getElementById(pageId).classList.add('active-page');
-      closeNav();
-      window.scrollTo({top: 0, behavior: 'smooth'});
+      closeNav(); window.scrollTo(0,0);
     }
-
-    // وظيفة الساعة والتاريخ
     function startClock() {
       setInterval(() => {
         const now = new Date();
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
-        
-        document.getElementById('clock-time').innerText = now.toLocaleTimeString('en-US', timeOptions);
-        document.getElementById('clock-date').innerText = now.toLocaleDateString('en-US', dateOptions);
+        document.getElementById('clock-time').innerText = now.toLocaleTimeString('en-US');
+        document.getElementById('clock-date').innerText = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
       }, 1000);
     }
-
-    // تسجيل المستخدم
     function registerUser() {
       const name = document.getElementById('username-input').value;
-      if(name.trim() === "") { alert("فضلاً اكتب اسمك"); return; }
+      if(name.trim() === "") return;
       localStorage.setItem('mlkq_user', name);
-      location.reload(); // إعادة تحميل لإظهار الترحيب وتغيير القائمة
+      location.reload();
     }
-
-    // فحص المستخدم عند التحميل
     function checkUser() {
       const savedUser = localStorage.getItem('mlkq_user');
-      const userArea = document.getElementById('user-area');
-      const logoutBtn = document.getElementById('logout-btn');
-      const toast = document.getElementById('welcome-toast');
-
       if(savedUser) {
-        // تغيير زر الدخول إلى اسم المستخدم
-        userArea.innerHTML = `<div style="padding:25px; color:var(--kick-green); font-weight:bold; text-align:center; font-size: 24px; border: 1px solid var(--kick-green); margin: 15px; border-radius: 10px;">👤 ${savedUser}</div>`;
-        logoutBtn.style.display = "block";
-        
-        // إظهار رسالة الترحيب بعد شاشة التحميل
+        document.getElementById('user-area').innerHTML = `<div style="padding:20px; color:var(--kick-green); font-weight:bold; text-align:center;">👤 ${savedUser}</div>`;
         setTimeout(() => {
-          toast.style.top = "30px";
-          setTimeout(() => { toast.style.top = "-150px"; }, 4000);
+          document.getElementById('welcome-toast').style.top = "30px";
+          setTimeout(() => { document.getElementById('welcome-toast').style.top = "-150px"; }, 4000);
         }, 2500);
       }
     }
-
-    // تسجيل الخروج
-    function logout() {
-      localStorage.removeItem('mlkq_user');
-      location.reload();
-    }
   </script>
-
 </body>
 </html>
