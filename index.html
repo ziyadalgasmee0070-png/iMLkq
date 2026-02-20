@@ -8,7 +8,7 @@
 <style>
   :root { --main-blue: #0074D9; --dark-bg: #000000; --kick-green: #2ecc71; --light-blue: #7FDBFF; }
 
-  /* --- شاشة الـ Blur البدائية --- */
+  /* --- شاشة الـ Blur --- */
   #loading-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(20px);
@@ -18,65 +18,66 @@
   .loading-text { font-size: 60px; font-weight: bold; color: var(--main-blue); animation: pulseText 1s infinite alternate; }
   @keyframes fadeOutScreen { to { opacity: 0; visibility: hidden; } }
 
-  /* --- القائمة الجانبية الاحترافية --- */
+  /* --- رسالة الترحيب المنبثقة --- */
+  #welcome-toast {
+    position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+    background: var(--kick-green); color: black; padding: 15px 30px;
+    border-radius: 50px; font-weight: bold; z-index: 11000;
+    transition: 0.5s; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  }
+
+  /* --- القائمة الجانبية --- */
   .sidebar {
     height: 100%; width: 0; position: fixed; z-index: 2000;
     top: 0; right: 0; background-color: #001122; overflow-x: hidden;
     transition: 0.5s; padding-top: 60px; text-align: right;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.9);
   }
   .sidebar a {
     padding: 18px 25px; text-decoration: none; font-size: 18px;
     color: var(--light-blue); display: block; transition: 0.3s;
-    border-bottom: 1px solid rgba(255,255,255,0.05); font-family: sans-serif;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
   }
-  .sidebar a:hover { background: var(--main-blue); color: white; padding-right: 35px; }
+  .sidebar a:hover { background: var(--main-blue); color: white; }
   .sidebar .closebtn { position: absolute; top: 10px; left: 25px; font-size: 36px; }
 
   .openbtn {
     font-size: 25px; cursor: pointer; background: var(--main-blue); color: white;
     padding: 10px 15px; border: none; position: fixed; top: 20px; right: 20px;
-    z-index: 1500; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,116,217,0.4);
+    z-index: 1500; border-radius: 8px;
   }
 
   /* --- تنسيق الصفحات --- */
   .page { display: none; padding: 20px; animation: fadeIn 0.5s forwards; }
   .active-page { display: block; }
-
   body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--dark-bg); color: white; }
   header { padding: 80px 20px; background: linear-gradient(135deg, #001f3f, #0074D9, #000); border-bottom: 3px solid var(--main-blue); }
+  .logo-img { width: 180px; filter: drop-shadow(0 0 15px var(--main-blue)); }
+  .info-card { background: #0a0a0a; padding: 30px; border-radius: 20px; border: 1px solid var(--main-blue); margin: 100px auto; max-width: 500px; }
   
-  .logo-img { width: 180px; filter: drop-shadow(0 0 15px var(--main-blue)); animation: logoIn 1.5s forwards 2.2s; opacity: 0; }
-  @keyframes logoIn { to { opacity: 1; transform: translateY(0); } }
-
-  .stats-card, .info-card { 
-    background: #0a0a0a; padding: 30px; border-radius: 20px; 
-    border: 1px solid var(--main-blue); margin: 20px auto; max-width: 600px; line-height: 1.8;
-  }
-
-  /* فورم تسجيل الدخول */
-  .login-form input {
-    width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--main-blue);
-    background: #111; color: white;
-  }
-  .btn-submit { background: var(--kick-green); border: none; padding: 12px 30px; color: black; font-weight: bold; border-radius: 8px; cursor: pointer; }
+  .login-form input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--main-blue); background: #111; color: white; }
+  .btn-submit { background: var(--kick-green); border: none; padding: 12px 30px; color: black; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; }
 
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 </style>
 </head>
-<body>
+<body onload="checkUser()">
 
   <div id="loading-screen"><div class="loading-text">iMLkq</div></div>
+
+  <div id="welcome-toast">أهلاً بك في عائلة أبو ملك</div>
 
   <button class="openbtn" onclick="openNav()">☰</button>
 
   <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="#" onclick="showPage('login-page')" style="background: var(--kick-green); color: black; font-weight: bold; text-align: center; border-radius: 5px; margin: 10px;">Login / إنشاء حساب</a>
+    <div id="user-area">
+      <a href="#" onclick="showPage('login-page')" style="background: var(--kick-green); color: black; font-weight: bold; text-align: center; border-radius: 5px; margin: 10px;">Login / إنشاء حساب</a>
+    </div>
     <a href="#" onclick="showPage('home-page')">1- الرئيسية</a>
     <a href="#" onclick="showPage('home-page')">2- مقاطع اليوتيوب</a>
     <a href="#" onclick="showPage('home-page')">3- البثوث المباشرة</a>
     <a href="#" onclick="showPage('about-page')">4- عن الموقع</a>
+    <a href="#" id="logout-btn" onclick="logout()" style="display:none; color: #ff4d4d; font-size: 14px;">تسجيل الخروج</a>
   </div>
 
   <div id="home-page" class="page active-page">
@@ -85,37 +86,26 @@
       <h1 style="color: var(--light-blue); font-size: 45px;">iMLkq</h1>
       <p>المقر الرسمي لمجتمع أبو ملك</p>
     </header>
-    <div class="stats-card">
-      <div style="font-size: 24px;">🎥 متابعين Kick: <span style="color: var(--kick-green);">37,300+</span></div>
-    </div>
   </div>
 
   <div id="login-page" class="page">
-    <div class="info-card" style="margin-top: 100px;">
+    <div class="info-card">
       <h2>إنشاء حساب جديد</h2>
       <div class="login-form">
-        <input type="text" placeholder="اسم المستخدم">
+        <input type="text" id="username-input" placeholder="اسم المستخدم">
         <input type="email" placeholder="البريد الإلكتروني">
         <input type="password" placeholder="كلمة المرور">
         <br><br>
-        <button class="btn-submit">تسجيل الحساب</button>
+        <button class="btn-submit" onclick="registerUser()">تسجيل الحساب</button>
       </div>
     </div>
   </div>
 
   <div id="about-page" class="page">
-    <div class="info-card" style="margin-top: 100px; text-align: right;">
-      <h2 style="color: var(--light-blue); border-bottom: 1px solid var(--main-blue); padding-bottom: 10px;">عن الموقع</h2>
-      <p>
-        هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"أبو ملك"</strong>. تم تصميم هذا الموقع ليكون الوجهة الأولى لكل ما يخص "أبو ملك"، حيث يجمع لكم أحدث المقاطع، البثوث المباشرة، وآخر الأخبار من جميع منصات التواصل الاجتماعي الخاصة به في مكان واحد.
-      </p>
-      <p>
-        نطمح هنا لبناء مجتمع تفاعلي يجمع المحبين والمتابعين، لنبقى دائماً على اتصال بكل جديد ومميز يقدمه "أبو ملك".
-      </p>
-      <hr style="border: 0.1px solid #222;">
-      <p style="font-size: 14px; text-align: center; color: #888;">
-        جميع الحقوق محفوظة © 2026. صُنع بكل حب من قبل: <strong>911 (zeyad)</strong>
-      </p>
+    <div class="info-card" style="text-align: right;">
+      <h2 style="color: var(--light-blue);">عن الموقع</h2>
+      <p>هذه المنصة هي المقر الرسمي لمجتمع الستريمر <strong>"أبو ملك"</strong>...</p>
+      <p style="font-size: 14px; text-align: center; color: #888;">جميع الحقوق محفوظة © 2026. صُنع بكل حب من قبل: 911 (zeyad)</p>
     </div>
   </div>
 
@@ -124,15 +114,45 @@
     function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
 
     function showPage(pageId) {
-      // إخفاء كل الصفحات
       var pages = document.getElementsByClassName('page');
-      for (var i = 0; i < pages.length; i++) {
-        pages[i].classList.remove('active-page');
-      }
-      // إظهار الصفحة المطلوبة
+      for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active-page');
       document.getElementById(pageId).classList.add('active-page');
-      closeNav(); // إغلاق القائمة بعد الاختيار
-      window.scrollTo(0,0);
+      closeNav();
+    }
+
+    // وظيفة تسجيل المستخدم
+    function registerUser() {
+      const name = document.getElementById('username-input').value;
+      if(name.trim() === "") { alert("فضلاً ادخل اسم المستخدم"); return; }
+      
+      localStorage.setItem('mlkq_user', name); // حفظ الاسم
+      showPage('home-page');
+      checkUser(); // تحديث القائمة والترحيب
+    }
+
+    // فحص هل المستخدم مسجل دخول؟
+    function checkUser() {
+      const savedUser = localStorage.getItem('mlkq_user');
+      const userArea = document.getElementById('user-area');
+      const logoutBtn = document.getElementById('logout-btn');
+      const toast = document.getElementById('welcome-toast');
+
+      if(savedUser) {
+        // تغيير زر الدخول إلى اسم المستخدم
+        userArea.innerHTML = `<div style="padding: 20px; color: var(--kick-green); font-weight: bold; text-align: center; border: 1px solid var(--kick-green); margin: 10px; border-radius: 5px;">👤 ${savedUser}</div>`;
+        logoutBtn.style.display = "block";
+        
+        // إظهار رسالة الترحيب
+        setTimeout(() => {
+          toast.style.top = "20px";
+          setTimeout(() => { toast.style.top = "-100px"; }, 3000);
+        }, 2500); // تظهر بعد شاشة الـ Blur
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('mlkq_user');
+      location.reload(); // إعادة تحميل الموقع
     }
   </script>
 
