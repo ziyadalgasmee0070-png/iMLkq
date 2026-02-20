@@ -22,7 +22,7 @@
 
   body::before {
     content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(12px); z-index: -1;
+    background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(12px); z-index: -1;
   }
 
   /* شاشة التحميل */
@@ -35,7 +35,7 @@
   @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.1); } }
   @keyframes fadeOutScreen { to { opacity: 0; visibility: hidden; } }
 
-  /* رسالة الترحيب */
+  /* ترحيب */
   #welcome-toast { 
     position: fixed; top: -120px; left: 50%; transform: translateX(-50%); 
     background: var(--kick-green); color: black; padding: 15px 40px; 
@@ -54,7 +54,7 @@
     z-index: 4000; border-radius: 10px;
   }
 
-  /* القائمة الجانبية */
+  /* القائمة */
   .sidebar {
     height: 100%; width: 0; position: fixed; z-index: 5000; top: 0; right: 0;
     background-color: rgba(0, 5, 15, 0.98); overflow-x: hidden; transition: 0.4s; padding-top: 20px;
@@ -62,7 +62,7 @@
   .sidebar a { padding: 15px 25px; text-decoration: none; font-size: 22px; color: var(--light-blue); display: block; text-align: right; }
   .sidebar .closebtn { font-size: 40px; color: white; cursor: pointer; padding: 10px 25px; display: block; }
 
-  /* أيقونات التواصل */
+  /* السوشيال ميديا يسار */
   .social-sidebar {
     position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
     display: flex; flex-direction: column; gap: 12px; z-index: 3000;
@@ -79,12 +79,37 @@
   .active-page { display: block; }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  .about-container { background: rgba(0, 0, 0, 0.85); padding: 40px; border-radius: 20px; border: 2px solid var(--main-blue); text-align: right; line-height: 1.8; }
-  header { text-align: center; margin-bottom: 50px; }
-  .logo-img { width: 220px; height: 220px; border-radius: 50%; border: 5px solid var(--main-blue); }
+  header { text-align: center; margin-bottom: 30px; }
+  .logo-img { width: 220px; height: 220px; border-radius: 50%; border: 5px solid var(--main-blue); box-shadow: 0 0 30px rgba(0,116,217,0.5); }
 
-  /* حقل تسجيل الدخول */
-  input[type="text"] { width: 80%; padding: 15px; margin: 20px 0; border-radius: 10px; border: 1px solid var(--main-blue); background: #111; color: white; font-size: 18px; text-align: center; }
+  /* العدادات */
+  .counters-row {
+    display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;
+  }
+  .counter-item {
+    background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;
+    border: 1px solid rgba(0,116,217,0.3); min-width: 150px; text-align: center;
+  }
+  .counter-num { display: block; font-size: 32px; font-weight: bold; color: var(--kick-green); }
+  .counter-label { font-size: 14px; color: #aaa; }
+
+  /* صفحة البث الاحترافية */
+  .live-card {
+    background: linear-gradient(135deg, rgba(0,116,217,0.2), rgba(0,0,0,0.8));
+    padding: 60px; border-radius: 30px; border: 1px solid var(--main-blue);
+    position: relative; overflow: hidden; text-align: center;
+  }
+  .live-badge {
+    position: absolute; top: 20px; right: 20px; background: red; color: white;
+    padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold;
+    animation: blink 1.5s infinite;
+  }
+  @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+  .about-container { background: rgba(0, 0, 0, 0.85); padding: 40px; border-radius: 20px; border: 1px solid var(--main-blue); text-align: right; line-height: 1.8; }
+  
+  /* دخول */
+  input[type="text"] { width: 80%; padding: 15px; margin: 20px 0; border-radius: 10px; border: 1px solid var(--main-blue); background: #111; color: white; text-align: center; }
   .btn-login { width: 85%; padding: 15px; background: var(--kick-green); color: black; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 20px; }
 </style>
 </head>
@@ -93,11 +118,7 @@
   <div id="loading-screen"><div class="loading-text">iMLKq</div></div>
   <div id="welcome-toast">أهلاً بك في عائلة iMLKq</div>
 
-  <div id="date-time-box">
-    <div id="clock-time">--:--:--</div>
-    <div id="clock-date">--------</div>
-  </div>
-
+  <div id="date-time-box"><div id="clock-time">--:--:--</div><div id="clock-date">--------</div></div>
   <button class="openbtn" onclick="openNav()">☰</button>
 
   <div class="social-sidebar">
@@ -111,9 +132,7 @@
 
   <div id="mySidebar" class="sidebar">
     <span class="closebtn" onclick="closeNav()">×</span>
-    <div id="user-area">
-        <a href="#" onclick="showPage('login-page')" style="background:var(--kick-green); color:black; font-weight:bold; text-align:center; border-radius:10px; margin:15px; display:block;">Login / تسجيل دخول</a>
-    </div>
+    <div id="user-area"><a href="#" onclick="showPage('login-page')" style="background:var(--kick-green); color:black; font-weight:bold; text-align:center; border-radius:10px; margin:15px; display:block;">Login / تسجيل دخول</a></div>
     <hr style="border: 0.1px solid #333; margin: 10px 20px;">
     <a href="#" onclick="showPage('home-page')">الرئيسية</a>
     <a href="#" onclick="showPage('yt-page')">اليوتيوب</a>
@@ -125,13 +144,18 @@
   <div id="home-page" class="page active-page">
     <header>
       <img src="IMG_9806.png" class="logo-img">
-      <h1 style="font-size: 85px; color: var(--light-blue); margin: 15px 0;">iMLKq</h1>
+      <h1 style="font-size: 80px; color: var(--light-blue); margin: 10px 0;">iMLKq</h1>
+      <div class="counters-row">
+        <div class="counter-item"><span class="counter-num">37.3K</span><span class="counter-label">Followers</span></div>
+        <div class="counter-item"><span class="counter-num">10K</span><span class="counter-label">Subscribers</span></div>
+        <div class="counter-item"><span class="counter-num">1M+</span><span class="counter-label">Total Views</span></div>
+      </div>
     </header>
   </div>
 
   <div id="yt-page" class="page">
     <h2 style="text-align: center; color: var(--light-blue); font-size: 40px; margin-bottom: 30px;">مقاطع اليوتيوب</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
         <a href="https://youtu.be/_tFB1fDSBdk" target="_blank"><img src="https://img.youtube.com/vi/_tFB1fDSBdk/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
         <a href="https://youtu.be/zrN12x_SkfA" target="_blank"><img src="https://img.youtube.com/vi/zrN12x_SkfA/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
         <a href="https://youtu.be/C9kFIOq-lN8" target="_blank"><img src="https://img.youtube.com/vi/C9kFIOq-lN8/maxresdefault.jpg" style="width:100%; border-radius:15px; border:1px solid var(--main-blue);"></a>
@@ -139,10 +163,11 @@
   </div>
 
   <div id="live-page" class="page">
-    <div style="background:rgba(0,0,0,0.85); padding:60px; border-radius:25px; border:2px solid var(--main-blue); text-align:center;">
-      <h2 style="color:var(--light-blue); font-size: 40px;">Kick Live</h2>
-      <p style="font-size: 20px; margin: 20px 0;">اضغط أدناه لمشاهدة البث المباشر</p>
-      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:15px 45px; border-radius:12px; text-decoration:none; font-weight:bold; font-size:24px; display:inline-block;">انتقل للبث</a>
+    <div class="live-card">
+      <div class="live-badge">LIVE</div>
+      <h2 style="color:var(--light-blue); font-size: 45px; margin: 0;">iMLKq KICK</h2>
+      <p style="font-size: 22px; color: #ddd; margin: 20px 0;">انضم الآن إلى أقوى بث مباشر وتفاعل مع المجتمع!</p>
+      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:18px 50px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:24px; display:inline-block; box-shadow: 0 10px 20px rgba(0,0,0,0.4);">دخول البث المباشر</a>
     </div>
   </div>
 
@@ -167,14 +192,12 @@
   <script>
     function openNav() { document.getElementById("mySidebar").style.width = "300px"; }
     function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
-    
     function showPage(pageId) {
       var pages = document.getElementsByClassName('page');
       for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active-page');
       document.getElementById(pageId).classList.add('active-page');
       closeNav(); window.scrollTo(0,0);
     }
-
     function startClock() {
       setInterval(() => {
         const now = new Date();
@@ -182,14 +205,12 @@
         document.getElementById('clock-date').innerText = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
       }, 1000);
     }
-
     function registerUser() {
       const name = document.getElementById('username-input').value;
       if(name.trim() === "") { alert("الرجاء كتابة اسمك"); return; }
       localStorage.setItem('mlkq_user', name);
       location.reload();
     }
-
     function checkUser() {
       const savedUser = localStorage.getItem('mlkq_user');
       const userArea = document.getElementById('user-area');
@@ -203,11 +224,7 @@
         }, 2500);
       }
     }
-
-    function logout() {
-      localStorage.removeItem('mlkq_user');
-      location.reload();
-    }
+    function logout() { localStorage.removeItem('mlkq_user'); location.reload(); }
   </script>
 </body>
 </html>
