@@ -11,6 +11,7 @@
     --main-blue: #0074D9; 
     --kick-green: #2ecc71; 
     --light-blue: #7FDBFF; 
+    --gold: #FFD700;
   }
 
   body {
@@ -93,6 +94,42 @@
   .counter-num { display: block; font-size: 32px; font-weight: bold; color: var(--kick-green); }
   .counter-label { font-size: 14px; color: #aaa; }
 
+  /* قسم Best Mods */
+  .mods-container {
+    margin-top: 40px;
+    background: linear-gradient(135deg, rgba(0,116,217,0.1), rgba(0,0,0,0.4));
+    padding: 25px;
+    border-radius: 25px;
+    border: 1px solid rgba(127, 219, 255, 0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .mods-title {
+    color: var(--gold);
+    font-size: 26px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  .mods-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .mod-name {
+    background: rgba(46, 204, 113, 0.15);
+    color: var(--kick-green);
+    padding: 12px 25px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 22px;
+    border: 1px solid var(--kick-green);
+    transition: 0.3s;
+  }
+  .mod-name:hover { transform: translateY(-5 traspx); background: var(--kick-green); color: black; }
+
   /* صفحة البث الاحترافية */
   .live-card {
     background: linear-gradient(135deg, rgba(0,116,217,0.2), rgba(0,0,0,0.8));
@@ -145,19 +182,21 @@
     <header>
       <img src="IMG_9806.png" class="logo-img">
       <h1 style="font-size: 80px; color: var(--light-blue); margin: 10px 0;">iMLKq</h1>
+      
       <div class="counters-row">
         <div class="counter-item"><span class="counter-num">37.3K</span><span class="counter-label">Followers</span></div>
         <div class="counter-item"><span class="counter-num">10K</span><span class="counter-label">Subscribers</span></div>
         <div class="counter-item"><span class="counter-num">1M+</span><span class="counter-label">Total Views</span></div>
       </div>
 
-      <div style="margin-top: 40px; background: rgba(0, 116, 217, 0.1); padding: 20px; border-radius: 20px; border: 1px dashed var(--main-blue);">
-        <h3 style="color: var(--light-blue); margin-bottom: 15px; font-size: 24px;">⭐ Best mods</h3>
-        <div style="display: flex; justify-content: center; gap: 15px; font-size: 20px; font-weight: bold; flex-wrap: wrap;">
-          <span style="background: rgba(46, 204, 113, 0.2); padding: 10px 20px; border-radius: 10px; color: var(--kick-green);">IM_911</span>
-          <span style="background: rgba(46, 204, 113, 0.2); padding: 10px 20px; border-radius: 10px; color: var(--kick-green);">1FATIMA</span>
+      <div class="mods-container">
+        <h3 class="mods-title"><i class="fas fa-star"></i> Best mods <i class="fas fa-star"></i></h3>
+        <div class="mods-list">
+          <div class="mod-name">IM_911</div>
+          <div class="mod-name">1FATIMA</div>
         </div>
       </div>
+
     </header>
   </div>
 
