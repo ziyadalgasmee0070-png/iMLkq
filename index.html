@@ -23,34 +23,23 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // تسجيل الزوار في Firebase
   window.registerUser = async () => {
     const name = document.getElementById('username-input').value;
     if(name.trim() === "") { alert("الرجاء كتابة اسمك"); return; }
-    
     try {
-      await addDoc(collection(db, "visitors"), {
-        username: name,
-        timestamp: serverTimestamp()
-      });
+      await addDoc(collection(db, "visitors"), { username: name, timestamp: serverTimestamp() });
       localStorage.setItem('mlkq_user', name);
       alert("تم تسجيل دخولك بنجاح!");
       location.reload();
-    } catch (e) { 
-      console.error(e);
-      alert("حدث خطأ! تأكد من تفعيل Rules في Firebase"); 
-    }
+    } catch (e) { alert("تأكد من تفعيل Rules في Firebase"); }
   };
 
-  // جلب البيانات لروم الإدارة
   window.loadAdminData = async () => {
     const pass = prompt("أدخل رمز دخول الإدارة:");
     if(pass !== "911admin") { alert("الرمز خطأ!"); return; }
-    
     showPage('admin-room');
     const tableBody = document.getElementById('admin-table-body');
     tableBody.innerHTML = "<tr><td colspan='2'>جاري جلب الزوار...</td></tr>";
-    
     try {
       const q = query(collection(db, "visitors"), orderBy("timestamp", "desc"));
       const querySnapshot = await getDocs(q);
@@ -58,86 +47,33 @@
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         const time = data.timestamp ? data.timestamp.toDate().toLocaleString('ar-EG') : "الآن";
-        tableBody.insertAdjacentHTML('beforeend', `
-          <tr>
-            <td style="padding:15px; border:1px solid #444; color:#2ecc71;">${data.username}</td>
-            <td style="padding:15px; border:1px solid #444; color:#ccc;">${time}</td>
-          </tr>
-        `);
+        tableBody.insertAdjacentHTML('beforeend', `<tr><td style="padding:15px; border:1px solid #444; color:#2ecc71;">${data.username}</td><td style="padding:15px; border:1px solid #444; color:#ccc;">${time}</td></tr>`);
       });
     } catch (e) { alert("حدث خطأ في جلب البيانات"); }
   };
 </script>
 
 <style>
-  :root { 
-    --main-blue: #0074D9; 
-    --kick-green: #2ecc71; 
-    --light-blue: #7FDBFF; 
-    --gold: #FFD700;
-  }
+  :root { --main-blue: #0074D9; --kick-green: #2ecc71; --light-blue: #7FDBFF; --gold: #FFD700; }
+  body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; color: white; background: black; background-image: url('IMG_2566.jpeg'); background-size: cover; background-attachment: fixed; overflow-x: hidden; }
+  body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(12px); z-index: -1; }
 
-  body {
-    margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif;
-    color: white; background-color: black; overflow-x: hidden;
-    background-image: url('IMG_2566.jpeg'); background-size: cover;
-    background-position: center; background-attachment: fixed;
-  }
-
-  body::before {
-    content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); z-index: -1;
-  }
-
-  /* شاشة التحميل */
-  #loading-screen {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; display: flex; justify-content: center; align-items: center;
-    z-index: 10000; animation: fadeOutScreen 0.5s forwards 2s;
-  }
+  #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; justify-content: center; align-items: center; z-index: 10000; animation: fadeOutScreen 0.5s forwards 2s; }
   .loading-text { font-size: 80px; font-weight: bold; color: var(--main-blue); animation: pulse 1s infinite alternate; }
   @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.1); } }
   @keyframes fadeOutScreen { to { opacity: 0; visibility: hidden; } }
 
-  /* توست الترحيب */
-  #welcome-toast { 
-    position: fixed; top: -120px; left: 50%; transform: translateX(-50%); 
-    background: var(--kick-green); color: black; padding: 15px 40px; 
-    border-radius: 50px; font-weight: bold; z-index: 11000; transition: 0.6s; font-size: 20px; 
-  }
+  #welcome-toast { position: fixed; top: -120px; left: 50%; transform: translateX(-50%); background: var(--kick-green); color: black; padding: 15px 40px; border-radius: 50px; font-weight: bold; z-index: 11000; transition: 0.6s; font-size: 20px; }
+  #date-time-box { position: fixed; top: 20px; left: 20px; background: rgba(0, 0, 0, 0.7); padding: 10px 15px; border-radius: 12px; border: 1px solid var(--main-blue); font-size: 16px; color: var(--light-blue); z-index: 4000; text-align: left; direction: ltr; }
 
-  #date-time-box {
-    position: fixed; top: 20px; left: 20px; background: rgba(0, 0, 0, 0.7);
-    padding: 10px 15px; border-radius: 12px; border: 1px solid var(--main-blue);
-    font-size: 16px; color: var(--light-blue); z-index: 4000; text-align: left; direction: ltr;
-  }
-
-  .openbtn {
-    font-size: 30px; cursor: pointer; background: var(--main-blue); color: white;
-    padding: 10px 15px; border: none; position: fixed; top: 20px; right: 20px;
-    z-index: 4000; border-radius: 10px;
-  }
-
-  /* القائمة الجانبية */
-  .sidebar {
-    height: 100%; width: 0; position: fixed; z-index: 5000; top: 0; right: 0;
-    background-color: rgba(0, 5, 15, 0.98); overflow-x: hidden; transition: 0.4s; padding-top: 20px;
-  }
+  .openbtn { font-size: 30px; cursor: pointer; background: var(--main-blue); color: white; padding: 10px 15px; border: none; position: fixed; top: 20px; right: 20px; z-index: 4000; border-radius: 10px; }
+  .sidebar { height: 100%; width: 0; position: fixed; z-index: 5000; top: 0; right: 0; background-color: rgba(0, 5, 15, 0.98); overflow-x: hidden; transition: 0.4s; padding-top: 20px; }
   .sidebar a { padding: 15px 25px; text-decoration: none; font-size: 22px; color: var(--light-blue); display: block; text-align: right; cursor: pointer; }
   .sidebar .closebtn { font-size: 40px; color: white; cursor: pointer; padding: 10px 25px; display: block; }
 
-  /* السوشيال ميديا */
-  .social-sidebar {
-    position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 12px; z-index: 3000;
-  }
+  .social-sidebar { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 3000; }
   .social-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 22px; text-decoration: none; transition: 0.3s; }
-  .kick { background: #53fc18; color: black; }
-  .discord { background: #5865F2; }
-  .whatsapp { background: #25d366; }
-  .youtube { background: #ff0000; }
-  .instagram { background: #e1306c; }
-  .x-twitter { background: #000; border: 1px solid #444; }
+  .kick { background: #53fc18; color: black; } .discord { background: #5865F2; } .whatsapp { background: #25d366; } .youtube { background: #ff0000; } .instagram { background: #e1306c; } .x-twitter { background: #000; border: 1px solid #444; }
 
   .page { display: none; padding: 100px 20px 40px; animation: fadeIn 0.5s; max-width: 900px; margin: auto; }
   .active-page { display: block; }
@@ -145,25 +81,30 @@
 
   header { text-align: center; margin-bottom: 30px; }
   .logo-img { width: 220px; height: 220px; border-radius: 50%; border: 5px solid var(--main-blue); box-shadow: 0 0 30px rgba(0,116,217,0.5); }
-
   .counters-row { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
   .counter-item { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border: 1px solid rgba(0,116,217,0.3); min-width: 150px; text-align: center; }
   .counter-num { display: block; font-size: 32px; font-weight: bold; color: var(--kick-green); }
-  .counter-label { font-size: 14px; color: #aaa; }
+
+  .mods-container { margin-top: 40px; background: linear-gradient(135deg, rgba(0,116,217,0.1), rgba(0,0,0,0.4)); padding: 25px; border-radius: 25px; border: 1px solid rgba(127, 219, 255, 0.3); }
+  .mods-title { color: var(--gold); font-size: 26px; margin-bottom: 20px; text-align: center; }
+  .mods-list { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+  .mod-name { background: rgba(46, 204, 113, 0.15); color: var(--kick-green); padding: 12px 25px; border-radius: 15px; font-weight: bold; font-size: 22px; border: 1px solid var(--kick-green); }
+
+  .live-card { background: linear-gradient(135deg, rgba(0,116,217,0.2), rgba(0,0,0,0.8)); padding: 60px; border-radius: 30px; border: 1px solid var(--main-blue); position: relative; text-align: center; }
+  .live-badge { position: absolute; top: 20px; right: 20px; background: red; color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; animation: blink 1.5s infinite; }
+  @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
   .admin-box { background: rgba(0,0,0,0.9); padding: 30px; border-radius: 20px; border: 2px solid var(--main-blue); text-align: center; }
   table { width: 100%; border-collapse: collapse; margin-top: 20px; }
   th { background: var(--main-blue); padding: 10px; }
-
-  .btn-login { width: 85%; padding: 15px; background: var(--kick-green); color: black; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 20px; }
   input[type="text"] { width: 80%; padding: 15px; margin: 20px 0; border-radius: 10px; border: 1px solid var(--main-blue); background: #111; color: white; text-align: center; }
+  .btn-login { width: 85%; padding: 15px; background: var(--kick-green); color: black; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 20px; }
 </style>
 </head>
 <body onload="checkUser(); startClock();">
 
   <div id="loading-screen"><div class="loading-text">iMLKq</div></div>
   <div id="welcome-toast">أهلاً بك في عائلة iMLKq</div>
-
   <div id="date-time-box"><div id="clock-time">--:--:--</div><div id="clock-date">--------</div></div>
   <button class="openbtn" onclick="openNav()">☰</button>
 
@@ -184,45 +125,24 @@
     <a onclick="showPage('yt-page')">اليوتيوب</a>
     <a onclick="showPage('live-page')">البث المباشر</a>
     <a onclick="showPage('about-page')">عن الموقع</a>
-    <a onclick="loadAdminData()" style="color:var(--gold); font-weight:bold;">🔐 روم الإدارة (خاص بك)</a>
-    <a id="logout-link" onclick="logout()" style="display:none; color: #ff4d4d; font-size: 16px;">تسجيل خروج</a>
+    <a onclick="loadAdminData()" style="color:var(--gold);">🔐 روم الإدارة (خاص بك)</a>
+    <a id="logout-link" onclick="logout()" style="display:none; color: #ff4d4d;">تسجيل خروج</a>
   </div>
 
   <div id="home-page" class="page active-page">
     <header>
       <img src="IMG_9806.png" class="logo-img">
       <h1 style="font-size: 80px; color: var(--light-blue); margin: 10px 0;">iMLKq</h1>
-      
       <div class="counters-row">
         <div class="counter-item"><span class="counter-num">37.3K</span><span class="counter-label">Followers</span></div>
         <div class="counter-item"><span class="counter-num">10K</span><span class="counter-label">Subscribers</span></div>
         <div class="counter-item"><span class="counter-num">1M+</span><span class="counter-label">Total Views</span></div>
       </div>
+      <div class="mods-container">
+        <h3 class="mods-title"><i class="fas fa-star"></i> Best mods <i class="fas fa-star"></i></h3>
+        <div class="mods-list"><div class="mod-name">IM_911</div><div class="mod-name">1FATIMA</div></div>
+      </div>
     </header>
-  </div>
-
-  <div id="login-page" class="page">
-    <div class="admin-box">
-      <h2 style="color:var(--light-blue);">سجل حضورك يا وحش</h2>
-      <input type="text" id="username-input" placeholder="اكتب اسمك هنا">
-      <button class="btn-login" onclick="registerUser()">دخول للموقع</button>
-    </div>
-  </div>
-
-  <div id="admin-room" class="page">
-    <div class="admin-box">
-      <h2 style="color:var(--gold);"><i class="fas fa-user-shield"></i> بيانات المتابعين الحالية</h2>
-      <table>
-        <thead>
-          <tr>
-            <th style="padding:10px; border:1px solid #444;">الاسم</th>
-            <th style="padding:10px; border:1px solid #444;">وقت الدخول</th>
-          </tr>
-        </thead>
-        <tbody id="admin-table-body"></tbody>
-      </table>
-      <button onclick="loadAdminData()" style="margin-top:20px; padding:10px 30px; background:transparent; border:1px solid var(--kick-green); color:var(--kick-green); border-radius:10px; cursor:pointer;">تحديث القائمة</button>
-    </div>
   </div>
 
   <div id="yt-page" class="page">
@@ -235,42 +155,16 @@
   </div>
 
   <div id="live-page" class="page">
-    <div style="background: linear-gradient(135deg, rgba(0,116,217,0.2), rgba(0,0,0,0.8)); padding: 60px; border-radius: 30px; border: 1px solid var(--main-blue); text-align: center;">
-      <h2 style="color:var(--light-blue); font-size: 45px;">iMLKq KICK</h2>
-      <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:18px 50px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:24px; display:inline-block;">دخول البث المباشر</a>
-    </div>
+    <div class="live-card"><div class="live-badge">LIVE</div><h2 style="color:var(--light-blue); font-size: 45px;">iMLKq KICK</h2>
+    <a href="https://kick.com/imlkq" target="_blank" style="background:var(--kick-green); color:black; padding:18px 50px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:24px; display:inline-block;">دخول البث المباشر</a></div>
   </div>
 
   <div id="about-page" class="page">
-    <div style="background: rgba(0, 0, 0, 0.85); padding: 40px; border-radius: 20px; border: 1px solid var(--main-blue); line-height: 1.8;">
+    <div style="background: rgba(0, 0, 0, 0.85); padding: 40px; border-radius: 20px; border: 1px solid var(--main-blue);">
       <h2 style="color:var(--light-blue);">عن الموقع</h2>
-      <p>هذه المنصة هي المقر الرسمي لمجتمع الستريمر iMLKq.</p>
-      <p style="text-align: center; color: #777; margin-top:40px;">© 2026 | صُنع بواسطة: ziyad (911)</p>
+      <p>هذه المنصة هي المقر الرسمي لمجتمع iMLKq. صُنع بواسطة: ziyad (911)</p>
     </div>
   </div>
 
-  <script>
-    function openNav() { document.getElementById("mySidebar").style.width = "300px"; }
-    function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
-    
-    function showPage(pageId) {
-      const pages = document.getElementsByClassName('page');
-      for (let i = 0; i < pages.length; i++) pages[i].classList.remove('active-page');
-      document.getElementById(pageId).classList.add('active-page');
-      closeNav();
-    }
-
-    function startClock() {
-      setInterval(() => {
-        const now = new Date();
-        document.getElementById('clock-time').innerText = now.toLocaleTimeString('en-US');
-        document.getElementById('clock-date').innerText = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
-      }, 1000);
-    }
-
-    function checkUser() {
-      const savedUser = localStorage.getItem('mlkq_user');
-      if(savedUser) {
-        document.getElementById('user-area').innerHTML = `<div style="padding:20px; color:var(--kick-green); font-weight:bold; text-align:center; font-size:24px;">👤 ${savedUser}</div>`;
-        document.getElementById('logout-link').style.display = "block";
-        setTimeout(() =>
+  <div id="login-page" class="page">
+    <div class="admin-box"><h2>سجل حضورك يا وحش</h2><input type="text" id="username-input" placeholder="اكتب اسمك هنا"><button class="btn-login" onclick="registerUser()">د
